@@ -140,7 +140,7 @@ const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramCl
           <div className="space-y-3 pt-2">
               <button 
                   onClick={() => {
-                      window.open('https://t.me/chix9', '_blank');
+                      window.open('https://t.me/chix9jaup', '_blank');
                       onTelegramClaim2();
                   }}
                   disabled={!canClaimTelegram2()}

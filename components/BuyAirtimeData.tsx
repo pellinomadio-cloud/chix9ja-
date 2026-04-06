@@ -166,6 +166,16 @@ const BuyAirtimeData: React.FC<BuyAirtimeDataProps> = ({ type, user, onPurchase,
                     placeholder="100"
                     className="w-full p-3 bg-gray-900 border border-gray-800 rounded-xl text-white font-bold text-lg focus:ring-2 focus:ring-green-glow outline-none"
                 />
+                <div className="flex justify-between items-center mt-1">
+                    {user.isSubscribed && (
+                        <div className="flex items-center text-amber-900 bg-amber-400 px-1 py-0.5 rounded text-[7px] font-black uppercase tracking-tighter border border-amber-600 shadow-sm animate-bounce">
+                            <Icons.Star size={6} className="mr-1 fill-amber-900" /> Golden
+                        </div>
+                    )}
+                    <p className="text-xs text-gray-500 text-right flex-1">
+                        Balance: ₦{user.balance.toLocaleString()}
+                    </p>
+                </div>
                 <div className="flex gap-2 mt-2 overflow-x-auto no-scrollbar pb-1">
                     {[100, 200, 500, 1000, 2000].map(amt => (
                         <button
@@ -193,6 +203,16 @@ const BuyAirtimeData: React.FC<BuyAirtimeDataProps> = ({ type, user, onPurchase,
                             <span className="font-bold text-green-glow">₦{plan.price.toLocaleString()}</span>
                         </div>
                     ))}
+                </div>
+                <div className="flex justify-between items-center mt-1">
+                    {user.isSubscribed && (
+                        <div className="flex items-center text-amber-900 bg-amber-400 px-1 py-0.5 rounded text-[7px] font-black uppercase tracking-tighter border border-amber-600 shadow-sm animate-bounce">
+                            <Icons.Star size={6} className="mr-1 fill-amber-900" /> Golden
+                        </div>
+                    )}
+                    <p className="text-xs text-gray-500 text-right flex-1">
+                        Balance: ₦{user.balance.toLocaleString()}
+                    </p>
                 </div>
             </div>
         )}

@@ -31,20 +31,20 @@ const SubscriptionNotification: React.FC<SubscriptionNotificationProps> = ({ onS
 
         <button 
           onClick={onSubscribe}
-          className="w-full flex items-center justify-center space-x-2 rounded-lg bg-green-glow py-1.5 text-xs font-bold text-black shadow-sm transition-transform active:scale-95 hover:bg-green-dark animate-green-glow-button"
+          className="w-full flex items-center justify-center space-x-2 rounded-lg bg-white py-1.5 text-xs font-bold text-black shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-transform active:scale-95 hover:bg-gray-100 animate-white-glow-button"
         >
           <span>Subscribe to Unlock</span>
           <Icons.ArrowRight size={12} />
         </button>
       </div>
       <style>{`
-        @keyframes green-glow-button {
-          0% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.4); }
-          50% { box-shadow: 0 0 15px rgba(0, 255, 127, 0.8); }
-          100% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.4); }
+        @keyframes white-glow-button {
+          0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
+          50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+          100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
         }
-        .animate-green-glow-button {
-          animation: green-glow-button 2s infinite ease-in-out;
+        .animate-white-glow-button {
+          animation: white-glow-button 2s infinite ease-in-out;
         }
       `}</style>
     </div>

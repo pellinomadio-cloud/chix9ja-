@@ -164,7 +164,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ user, onTransfer, onSubscribeRedi
             </div>
             <button 
                 onClick={onSubscribeRedirect}
-                className="w-full max-w-sm bg-green-glow hover:bg-green-dark text-black font-bold py-3 rounded-full shadow-lg transition-all animate-green-glow-button"
+                className="w-full max-w-sm bg-white hover:bg-gray-100 text-black font-bold py-3 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all animate-white-glow-button"
             >
                 Subscribe Now
             </button>
@@ -291,9 +291,16 @@ const SendMoney: React.FC<SendMoneyProps> = ({ user, onTransfer, onSubscribeRedi
                     className="w-full p-3 pl-8 bg-gray-900 border border-gray-800 rounded-xl text-white font-bold text-lg focus:ring-2 focus:ring-green-glow outline-none"
                 />
             </div>
-            <p className="text-xs text-gray-500 text-right mt-1">
-                Balance: ₦{user.balance.toLocaleString()}
-            </p>
+            <div className="flex justify-between items-center mt-1">
+                {user.isSubscribed && (
+                    <div className="flex items-center text-amber-900 bg-amber-400 px-1 py-0.5 rounded text-[7px] font-black uppercase tracking-tighter border border-amber-600 shadow-sm animate-bounce">
+                        <Icons.Star size={6} className="mr-1 fill-amber-900" /> Golden
+                    </div>
+                )}
+                <p className="text-xs text-gray-500 text-right flex-1">
+                    Balance: ₦{user.balance.toLocaleString()}
+                </p>
+            </div>
         </div>
 
         <button
@@ -319,6 +326,14 @@ const SendMoney: React.FC<SendMoneyProps> = ({ user, onTransfer, onSubscribeRedi
         }
         .animate-green-glow-button {
           animation: green-glow-button 2s infinite ease-in-out;
+        }
+        @keyframes white-glow-button {
+          0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
+          50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+          100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
+        }
+        .animate-white-glow-button {
+          animation: white-glow-button 2s infinite ease-in-out;
         }
       `}</style>
     </div>

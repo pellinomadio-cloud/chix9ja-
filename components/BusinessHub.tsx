@@ -63,8 +63,15 @@ const BusinessHub: React.FC<BusinessHubProps> = ({ user, onVipWithdraw, onBack }
 
       {/* Balance Grid */}
       <div className="grid grid-cols-1 gap-4">
-        <div className="bg-gray-900 p-5 rounded-2xl shadow-sm border border-gray-800">
-           <p className="text-xs font-bold text-gray-500 uppercase mb-1">Main Balance</p>
+        <div className="bg-gray-900 p-5 rounded-2xl shadow-sm border border-gray-800 relative overflow-hidden">
+           <div className="flex justify-between items-start">
+             <p className="text-xs font-bold text-gray-500 uppercase mb-1">Main Balance</p>
+             {user.isSubscribed && (
+               <div className="flex items-center text-amber-900 bg-amber-400 px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter border border-amber-600 shadow-sm animate-bounce">
+                 <Icons.Star size={8} className="mr-1 fill-amber-900" /> Golden
+               </div>
+             )}
+           </div>
            <p className="text-2xl font-black text-white">₦{user.balance.toLocaleString()}</p>
         </div>
 

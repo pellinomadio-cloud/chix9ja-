@@ -33,8 +33,8 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                         </button>
                     </div>
                     {isSubscribed && (
-                        <div className="flex items-center text-green-800 bg-green-400/30 px-2 py-0.5 rounded-full text-[10px] font-black w-fit uppercase tracking-wider border border-green-800/20">
-                            <span className="mr-1">●</span> Subscription Active
+                        <div className="flex items-center text-amber-900 bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200 px-2 py-1 rounded-lg text-[10px] font-black w-fit uppercase tracking-wider border border-amber-500 shadow-[0_0_15px_rgba(251,191,36,0.4)] animate-pulse">
+                            <Icons.Star size={12} className="mr-1 fill-amber-900" /> Subscribed Member
                         </div>
                     )}
                 </div>
@@ -44,11 +44,18 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
             </div>
 
             <div className="flex justify-between items-end">
-                <div className="flex items-center">
-                    <h1 className="text-3xl font-extrabold text-black tracking-tight">
-                        {isVisible ? formatCurrency(balance) : '₦ •••••••'}
-                    </h1>
-                    <Icons.ChevronRight className="text-black ml-1" size={24} />
+                <div className="flex flex-col">
+                    {isSubscribed && (
+                        <div className="flex items-center text-amber-900 bg-amber-400 px-1.5 py-0.5 rounded-md text-[8px] font-black w-fit uppercase tracking-tighter border border-amber-600 shadow-sm mb-1 animate-bounce">
+                            <Icons.Star size={8} className="mr-1 fill-amber-900" /> Golden
+                        </div>
+                    )}
+                    <div className="flex items-center">
+                        <h1 className="text-3xl font-extrabold text-black tracking-tight">
+                            {isVisible ? formatCurrency(balance) : '₦ •••••••'}
+                        </h1>
+                        <Icons.ChevronRight className="text-black ml-1" size={24} />
+                    </div>
                 </div>
                 <button 
                     onClick={onHistoryClick}

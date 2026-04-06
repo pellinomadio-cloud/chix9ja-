@@ -113,9 +113,14 @@ const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance }) => {
                       </p>
                     </div>
                   ) : (
-                    <div className="inline-flex items-center px-2 py-0.5 rounded-md bg-green-glow/10 text-green-glow">
-                        <Icons.CheckCircle size={10} className="mr-1" />
-                        <span className="text-[10px] font-bold">{plan.limitDescription}</span>
+                    <div className="space-y-3 mt-2">
+                        <div className="inline-flex items-center px-2 py-0.5 rounded-md bg-green-glow/10 text-green-glow">
+                            <Icons.CheckCircle size={10} className="mr-1" />
+                            <span className="text-[10px] font-bold">{plan.limitDescription}</span>
+                        </div>
+                        <button className="w-full py-2 bg-white text-black font-black text-xs rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.5)] animate-white-glow-button">
+                            SUBSCRIBE NOW
+                        </button>
                     </div>
                   )}
                 </div>
@@ -129,6 +134,17 @@ const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance }) => {
           );
         })}
       </div>
+
+      <style>{`
+        @keyframes white-glow-button {
+          0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+          50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+          100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+        }
+        .animate-white-glow-button {
+          animation: white-glow-button 2s infinite ease-in-out;
+        }
+      `}</style>
 
       {/* Support Advert */}
       <div 

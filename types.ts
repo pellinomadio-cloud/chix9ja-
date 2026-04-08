@@ -67,6 +67,8 @@ export interface User {
   dailyQuizCount?: number;
   lastQuizTimestamp?: number;
   hasPlayedWelcomeVoice?: boolean;
+  promoCodesUsed?: string[];
+  promoExpiry?: number;
 }
 
 export interface Plan {

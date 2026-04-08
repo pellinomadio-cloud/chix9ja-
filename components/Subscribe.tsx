@@ -6,6 +6,7 @@ import { Plan } from '../types';
 interface SubscribeProps {
   onPlanSelect: (plan: Plan) => void;
   userBalance: number;
+  promoExpiry?: number;
 }
 
 // Extended plan interface locally for display purposes
@@ -13,36 +14,44 @@ interface PlanDisplay extends Plan {
   limitDescription: string;
 }
 
-const plans: PlanDisplay[] = [
-  { 
-    id: 'weekly', 
-    name: 'Weekly Plan', 
-    price: '₦6,500', 
-    amount: '6,500 Naira', 
-    duration: '7 Days',
-    limitDescription: 'Withdraw limit: ₦200,000 / week'
-  },
-  { 
-    id: 'monthly', 
-    name: 'Monthly Plan', 
-    price: '₦8,000', 
-    amount: '8,000 Naira', 
-    duration: '30 Days', 
-    recommended: true,
-    limitDescription: 'Withdraw limit: ₦2,000,000 / month'
-  },
-  { 
-    id: 'yearly', 
-    name: 'Premium User', 
-    price: '₦30,000', 
-    amount: '30,000 Naira', 
-    duration: '365 Days',
-    limitDescription: 'Unlimited Withdrawals'
-  },
-];
-
-const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance }) => {
+const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance, promoExpiry }) => {
   const [showAdvert, setShowAdvert] = useState(false);
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const isPromoActive = promoExpiry ? now < promoExpiry : false;
+
+  const plans: PlanDisplay[] = [
+    { 
+      id: 'weekly', 
+      name: 'Weekly Plan', 
+      price: isPromoActive ? '₦4,500' : '₦6,500', 
+      amount: isPromoActive ? '4,500 Naira' : '6,500 Naira', 
+      duration: '7 Days',
+      limitDescription: 'Withdraw limit: ₦200,000 / week'
+    },
+    { 
+      id: 'monthly', 
+      name: 'Monthly Plan', 
+      price: isPromoActive ? '₦7,000' : '₦8,000', 
+      amount: isPromoActive ? '7,000 Naira' : '8,000 Naira', 
+      duration: '30 Days', 
+      recommended: true,
+      limitDescription: 'Withdraw limit: ₦2,000,000 / month'
+    },
+    { 
+      id: 'yearly', 
+      name: 'Premium User', 
+      price: '₦30,000', 
+      amount: '30,000 Naira', 
+      duration: '365 Days',
+      limitDescription: 'Unlimited Withdrawals'
+    },
+  ];
 
   useEffect(() => {
     // Initial delay

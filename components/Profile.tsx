@@ -13,7 +13,26 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, toggleDarkMode, onLogout }) => {
   const [name, setName] = useState(user.name);
   const [isEditing, setIsEditing] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [promoMessage, setPromoMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleApplyPromo = () => {
+    if (promoCode.toUpperCase() === 'FFF999') {
+      if (user.promoCodesUsed?.includes('FFF999')) {
+        setPromoMessage({ text: 'This promo code has already been used.', type: 'error' });
+      } else {
+        const promoExpiry = Date.now() + 30 * 60 * 1000; // 30 minutes from now
+        const promoCodesUsed = [...(user.promoCodesUsed || []), 'FFF999'];
+        onUpdateProfile({ promoExpiry, promoCodesUsed });
+        setPromoMessage({ text: 'Promo code applied! Subscription prices reduced for 30 minutes.', type: 'success' });
+        setPromoCode('');
+      }
+    } else {
+      setPromoMessage({ text: 'Invalid promo code.', type: 'error' });
+    }
+    setTimeout(() => setPromoMessage(null), 5000);
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -95,6 +114,39 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, togg
           >
             {isEditing ? <Icons.Check size={20} /> : 'Edit'}
           </button>
+        </div>
+
+        {/* Promo Code Section */}
+        <div className="flex flex-col py-3 border-t border-gray-800">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="p-2.5 bg-amber-500/10 rounded-xl text-amber-500">
+                <Icons.Ticket size={20} />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-gray-500 mb-0.5">Promo Code</p>
+              <p className="text-[10px] text-gray-600">Enter a code to unlock special discounts</p>
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <input 
+              type="text" 
+              placeholder="Enter code"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              className="flex-1 p-2 border border-gray-800 rounded-xl text-sm bg-black text-white focus:ring-2 focus:ring-green-glow outline-none"
+            />
+            <button 
+              onClick={handleApplyPromo}
+              className="px-4 py-2 bg-green-glow text-black font-bold text-xs rounded-xl shadow-lg active:scale-95 transition-all"
+            >
+              APPLY
+            </button>
+          </div>
+          {promoMessage && (
+            <p className={`mt-2 text-[10px] font-bold ${promoMessage.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+              {promoMessage.text}
+            </p>
+          )}
         </div>
       </div>
 

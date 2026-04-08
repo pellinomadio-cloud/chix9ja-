@@ -41,7 +41,7 @@ const UpgradeProposal: React.FC<UpgradeProposalProps> = ({ onProceed, onBack }) 
       {/* Price Section */}
       <div className="bg-green-glow/5 rounded-2xl p-6 text-center border-2 border-green-glow/20">
         <p className="text-xs font-bold text-green-glow uppercase tracking-widest mb-1">One-Time VIP Fee</p>
-        <h4 className="text-4xl font-black text-white">₦15,000</h4>
+        <h4 className="text-4xl font-black text-white">₦20,000</h4>
         <p className="text-[10px] text-gray-500 mt-2 italic">Lifetime activation • No recurring charges</p>
       </div>
 

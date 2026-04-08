@@ -1,14 +1,19 @@
 
 import React, { useState } from 'react';
 import { Icons } from './Icons';
+import { User } from '../types';
 
 interface ImminentPaymentProps {
+  user: User;
   onBack: () => void;
 }
 
-const ImminentPayment: React.FC<ImminentPaymentProps> = ({ onBack }) => {
+const ImminentPayment: React.FC<ImminentPaymentProps> = ({ user, onBack }) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
   const [paymentProof, setPaymentProof] = useState<string | null>(null);
+
+  const isDeactivated = user.deactivationDate ? Date.now() > user.deactivationDate : false;
+  const amount = isDeactivated ? 30000 : 20000;
 
   const handlePayNow = () => {
     const accountNumber = "2423673964";
@@ -18,7 +23,7 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ onBack }) => {
       `Bank: PAGA\n` +
       `Account Number: ${accountNumber}\n` +
       `Account Name: OLUWATOSIN OLIDO\n\n` +
-      `AMOUNT: ₦10,000\n\n` +
+      `AMOUNT: ₦${amount.toLocaleString()}\n\n` +
       `Account number copied! Make payment and click "Verify" below.`
     );
   };
@@ -71,8 +76,8 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ onBack }) => {
         <div className="absolute top-0 left-0 w-1.5 h-full bg-green-glow"></div>
         
         <div className="text-center space-y-1">
-            <p className="text-xs font-black text-green-glow uppercase tracking-widest">Verification Amount</p>
-            <p className="text-3xl font-black text-white">₦10,000</p>
+            <p className="text-xs font-black text-green-glow uppercase tracking-widest">{isDeactivated ? 'Deactivation Penalty' : 'Verification Amount'}</p>
+            <p className="text-3xl font-black text-white">₦{amount.toLocaleString()}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4 text-left border-t border-gray-800 pt-4">
@@ -109,7 +114,7 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ onBack }) => {
           <span className="uppercase tracking-widest">Copy Details</span>
         </button>
         
-        <p className="text-[10px] text-gray-500 text-center font-medium italic">Make payment of ₦10,000 to the account above</p>
+        <p className="text-[10px] text-gray-500 text-center font-medium italic">Make payment of ₦{amount.toLocaleString()} to the account above</p>
         
         <div className="bg-red-900/20 p-3 rounded-lg border border-red-800 text-center">
           <p className="text-[10px] text-red-400 font-bold leading-tight uppercase tracking-tight">

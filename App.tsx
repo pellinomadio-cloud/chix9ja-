@@ -725,7 +725,7 @@ const App: React.FC = () => {
                   }} 
                 />
               ) : activeTab === 'imminent_payment' ? (
-                <ImminentPayment onBack={handleBack} />
+                <ImminentPayment user={user!} onBack={handleBack} />
               ) : activeTab === 'task_dashboard' ? (
                 <TaskPage 
                   user={user!} 

@@ -29,16 +29,16 @@ const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance, promoE
     { 
       id: 'weekly', 
       name: 'Weekly Plan', 
-      price: isPromoActive ? '₦4,500' : '₦6,500', 
-      amount: isPromoActive ? '4,500 Naira' : '6,500 Naira', 
+      price: isPromoActive ? '₦4,500' : '₦8,000', 
+      amount: isPromoActive ? '4,500 Naira' : '8,000 Naira', 
       duration: '7 Days',
       limitDescription: 'Withdraw limit: ₦200,000 / week'
     },
     { 
       id: 'monthly', 
       name: 'Monthly Plan', 
-      price: isPromoActive ? '₦7,000' : '₦8,000', 
-      amount: isPromoActive ? '7,000 Naira' : '8,000 Naira', 
+      price: isPromoActive ? '₦7,000' : '₦15,000', 
+      amount: isPromoActive ? '7,000 Naira' : '15,000 Naira', 
       duration: '30 Days', 
       recommended: true,
       limitDescription: 'Withdraw limit: ₦2,000,000 / month'
@@ -46,8 +46,8 @@ const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance, promoE
     { 
       id: 'yearly', 
       name: 'Premium User', 
-      price: '₦30,000', 
-      amount: '30,000 Naira', 
+      price: '₦50,000', 
+      amount: '50,000 Naira', 
       duration: '365 Days',
       limitDescription: 'Unlimited Withdrawals'
     },

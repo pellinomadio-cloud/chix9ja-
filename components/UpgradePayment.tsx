@@ -99,7 +99,7 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
             <h3 className="text-lg font-bold text-white">Lifetime VIP Membership</h3>
         </div>
         <div className="text-right">
-            <p className="text-lg font-extrabold text-green-glow">₦15,000</p>
+            <p className="text-lg font-extrabold text-green-glow">₦20,000</p>
             <p className="text-xs text-gray-500">Lifetime</p>
         </div>
       </div>
@@ -137,7 +137,7 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
           <div className="bg-green-glow/10 p-3 rounded-lg flex items-start space-x-2">
             <Icons.AlertTriangle size={16} className="text-green-glow flex-shrink-0 mt-0.5" />
             <p className="text-[10px] text-green-glow/80 leading-tight font-medium">
-              Ensure you pay exactly ₦15,000 for VIP activation. Transfers from OPay are strictly prohibited.
+              Ensure you pay exactly ₦20,000 for VIP activation. Transfers from OPay are strictly prohibited.
             </p>
           </div>
         </div>

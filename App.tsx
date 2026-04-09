@@ -31,6 +31,7 @@ import UpgradePayment from './components/UpgradePayment';
 import BusinessHub from './components/BusinessHub';
 import NotificationFeed from './components/NotificationFeed';
 import Loan from './components/Loan';
+import SystemNotification from './components/SystemNotification';
 import { Icons } from './components/Icons';
 import { User, Plan, Transaction, RewardStatus } from './types';
 import { GoogleGenAI, Modality } from "@google/genai";
@@ -792,6 +793,7 @@ const App: React.FC = () => {
               )}
           </div>
           {currentView === 'dashboard' && user?.notificationPreferences && <LiveNotifications preferences={user.notificationPreferences} />}
+          {currentView === 'dashboard' && !user?.isSubscribed && <SystemNotification />}
           {activeTab !== 'admin' && activeTab !== 'imminent_payment' && activeTab !== 'task_dashboard' && activeTab !== 'notifications' && activeTab !== 'receipt' && (
             <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} user={user} />
           )}

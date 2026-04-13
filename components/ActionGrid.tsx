@@ -11,8 +11,8 @@ const topRowItems: MenuItem[] = [
 ];
 
 const bottomGridItems: MenuItem[] = [
-  { id: 'airtime', label: 'Airtime', icon: Icons.Airtime, color: 'text-purple-600 dark:text-purple-400' },
-  { id: 'data', label: 'Data', icon: Icons.Data, color: 'text-indigo-600 dark:text-indigo-400' },
+  { id: 'invest', label: 'Invest', icon: Icons.Invest, color: 'text-amber-400' },
+  { id: 'support', label: 'Support', icon: Icons.Support, color: 'text-blue-500' },
   { id: 'free_withdraw', label: 'Task', icon: Icons.Gift, color: 'text-orange-500 dark:text-orange-400', badge: 'Unlock' },
   { id: 'business', label: 'My Business Hub', icon: Icons.Business, color: 'text-blue-600 dark:text-blue-400' },
   { id: 'quiz_game', label: 'Quiz Game', icon: Icons.Gamepad2, color: 'text-purple-500 dark:text-purple-400' },
@@ -90,7 +90,7 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
                     {item.badge}
                 </div>
               )}
-              <div className={`w-8 h-8 flex items-center justify-center text-green-glow`}>
+              <div className={`w-8 h-8 flex items-center justify-center ${item.color || 'text-green-glow'}`}>
                  {/* Using fill for solid look where appropriate, simulating the bold icons in screenshot */}
                 <Icon size={28} strokeWidth={2} />
               </div>

@@ -31,6 +31,7 @@ import UpgradePayment from './components/UpgradePayment';
 import BusinessHub from './components/BusinessHub';
 import NotificationFeed from './components/NotificationFeed';
 import Loan from './components/Loan';
+import Investment from './components/Investment';
 import SystemNotification from './components/SystemNotification';
 import { Icons } from './components/Icons';
 import { User, Plan, Transaction, RewardStatus } from './types';
@@ -434,8 +435,12 @@ const App: React.FC = () => {
         setActiveTab('task_dashboard');
     } else if (id === 'business') {
         setActiveTab('finance');
+    } else if (id === 'invest') {
+        setActiveTab('invest');
     } else if (id === 'loan') {
         setActiveTab('loan');
+    } else if (id === 'support') {
+        window.open('https://t.me/CHIX9JAservice', '_blank');
     } else if (id === 'airtime' || id === 'data') {
         if (user && user.isSubscribed) {
             setServiceType(id);
@@ -662,6 +667,7 @@ const App: React.FC = () => {
     'buy_service': serviceType === 'airtime' ? 'Buy Airtime' : 'Buy Data',
     'sync_account': 'Sync Account', 'admin': 'Admin Panel', 'transaction_history': 'Transactions',
     'imminent_payment': 'Activation', 
+    'invest': 'Investment',
     'task_dashboard': taskMode === 'quiz' ? 'Quiz Game' : taskMode === 'telegram' ? 'Task' : 'Tasks',
     'upgrade_proposal': 'VIP Membership', 'upgrade_payment': 'Confirm VIP Status', 'business_hub': 'Business Hub',
     'notifications': 'Feed', 'receipt': 'Receipt'
@@ -672,7 +678,7 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-black font-sans text-white transition-colors duration-200">
         <div className="max-w-md mx-auto bg-black min-h-screen relative shadow-2xl transition-colors duration-200">
           <div className="pb-24">
-              {activeTab !== 'reward' && activeTab !== 'admin' && activeTab !== 'imminent_payment' && activeTab !== 'task_dashboard' && activeTab !== 'business_hub' && activeTab !== 'finance' && activeTab !== 'notifications' && activeTab !== 'receipt' && activeTab !== 'loan' && (
+              {activeTab !== 'reward' && activeTab !== 'admin' && activeTab !== 'imminent_payment' && activeTab !== 'task_dashboard' && activeTab !== 'business_hub' && activeTab !== 'finance' && activeTab !== 'notifications' && activeTab !== 'receipt' && activeTab !== 'loan' && activeTab !== 'invest' && (
                   <Header 
                     userName={user?.name} profileImage={user?.profileImage} 
                     onLogout={handleLogout} showBack={activeTab !== 'home'}
@@ -688,6 +694,8 @@ const App: React.FC = () => {
                 <Rewards currentDay={rewardStatus.currentDay} canClaim={isClaimable} onClaim={handleClaimReward} lastClaimedTimestamp={rewardStatus.lastClaimedTimestamp} onBack={handleBack} />
               ) : activeTab === 'loan' && user ? (
                 <Loan user={user} onApply={handleApplyLoan} onBack={handleBack} />
+              ) : activeTab === 'invest' && user ? (
+                <Investment user={user} onBack={handleBack} />
               ) : activeTab === 'subscribe' ? (
                 <Subscribe onPlanSelect={handlePlanSelect} userBalance={user?.balance || 0} promoExpiry={user?.promoExpiry} />
               ) : activeTab === 'subscribe_payment' && selectedPlan ? (

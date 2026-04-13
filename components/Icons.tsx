@@ -51,7 +51,8 @@ import {
   Snowflake,
   Ban,
   Zap,
-  Ticket
+  Ticket,
+  TrendingUp
 } from 'lucide-react';
 
 // Exporting icons for easy import elsewhere
@@ -112,5 +113,6 @@ export const Icons = {
   Snowflake,
   Ban,
   Zap,
-  Ticket: Ticket
+  Ticket: Ticket,
+  Invest: TrendingUp
 };

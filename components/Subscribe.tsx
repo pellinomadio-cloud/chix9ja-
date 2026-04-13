@@ -68,7 +68,7 @@ const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance, promoE
   }, []);
 
   const handleSupportClick = () => {
-    window.open('https://t.me/chix9ja1', '_blank');
+    window.open('https://t.me/CHIX9JAservice', '_blank');
   };
 
   return (

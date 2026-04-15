@@ -16,11 +16,11 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ user, onBack }) => {
   const amount = isDeactivated ? 30000 : 20000;
 
   const handlePayNow = () => {
-    const accountNumber = "1944539322";
+    const accountNumber = "0435119272";
     navigator.clipboard.writeText(accountNumber);
     alert(
       `ACTIVATION DETAILS\n\n` +
-      `Bank: Access bank\n` +
+      `Bank: Paga\n` +
       `Account Number: ${accountNumber}\n` +
       `Account Name: Marvelous Michael O\n\n` +
       `AMOUNT: ₦${amount.toLocaleString()}\n\n` +
@@ -83,7 +83,7 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ user, onBack }) => {
         <div className="grid grid-cols-2 gap-4 text-left border-t border-gray-800 pt-4">
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Bank Name</p>
-            <p className="text-sm font-black text-white">Access bank</p>
+            <p className="text-sm font-black text-white">Paga</p>
           </div>
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Account Name</p>
@@ -92,10 +92,10 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ user, onBack }) => {
           <div className="col-span-2 space-y-1">
             <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Account Number</p>
             <div className="flex items-center justify-between bg-black p-3 rounded-xl border border-gray-800">
-              <p className="text-xl font-black text-green-glow tracking-wider">1944539322</p>
+              <p className="text-xl font-black text-green-glow tracking-wider">0435119272</p>
               <button 
                 onClick={() => {
-                  navigator.clipboard.writeText("1944539322");
+                  navigator.clipboard.writeText("0435119272");
                   alert("Account number copied to clipboard!");
                 }}
                 className="p-2 bg-green-glow/10 text-green-glow rounded-lg active:scale-90 transition-transform"

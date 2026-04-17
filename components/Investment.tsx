@@ -209,11 +209,12 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
         ))}
       </div>
 
-      <div className="bg-amber-500/5 p-4 rounded-xl border border-amber-500/10 text-center">
-        <p className="text-[10px] text-amber-500/60 font-medium uppercase tracking-widest">
-          All investments are processed within 24 hours.
-        </p>
-      </div>
+        <div className="bg-amber-500/5 p-4 rounded-xl border border-amber-500/10 text-center">
+          <p className="text-[10px] text-amber-500/60 font-medium uppercase tracking-widest leading-relaxed">
+            All investments are processed within 24 hours. <br/>
+            DON'T USE OPAY OR PALMPAY TO PAY FOR INVESTMENTS.
+          </p>
+        </div>
     </div>
   );
 };

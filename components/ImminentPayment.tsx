@@ -118,8 +118,8 @@ const ImminentPayment: React.FC<ImminentPaymentProps> = ({ user, onBack }) => {
         
         <div className="bg-red-900/20 p-3 rounded-lg border border-red-800 text-center">
           <p className="text-[10px] text-red-400 font-bold leading-tight uppercase tracking-tight">
-            ⚠️ DO NOT USE OPAY TO PAY FOR SUBSCRIPTION. <br/>
-            PALMPAY AND ANY OTHER BANK IS ALLOWED.
+            ⚠️ DO NOT USE OPAY AND PALMPAY TO PAY FOR SUBSCRIPTION. <br/>
+            MONIEPOINT AND ANY OTHER BANK IS ALLOWED.
           </p>
         </div>
       </div>

@@ -89,7 +89,7 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
       
       {/* Warning Message */}
       <div className={`bg-red-600 text-white p-3 rounded-xl text-center font-black text-xs uppercase tracking-tighter transition-all duration-500 ${showWarning ? 'opacity-100 scale-100' : 'opacity-50 scale-95'}`}>
-        DONT USE OPAY TO PAY FOR VIP ACTIVATION. OTHER BANKS LIKE PALMPAY AND MONIEPOINT E.T.C ARE ALLOWED.
+        DONT USE OPAY AND PALMPAY TO PAY FOR VIP ACTIVATION. OTHER BANKS LIKE MONIEPOINT E.T.C ARE ALLOWED.
       </div>
 
       {/* Selected Plan Summary */}
@@ -137,7 +137,7 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
           <div className="bg-green-glow/10 p-3 rounded-lg flex items-start space-x-2">
             <Icons.AlertTriangle size={16} className="text-green-glow flex-shrink-0 mt-0.5" />
             <p className="text-[10px] text-green-glow/80 leading-tight font-medium">
-              Ensure you pay exactly ₦20,000 for VIP activation. Transfers from OPay are strictly prohibited.
+              Ensure you pay exactly ₦20,000 for VIP activation. Transfers from OPAY and PALMPAY are strictly prohibited.
             </p>
           </div>
         </div>

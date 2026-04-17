@@ -99,7 +99,7 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
       
       {/* Warning Message */}
       <div className={`bg-red-600 text-white p-3 rounded-xl text-center font-black text-xs uppercase tracking-tighter transition-all duration-500 ${showWarning ? 'opacity-100 scale-100' : 'opacity-50 scale-95'}`}>
-        DONT USE OPAY TO PAY FOR SUBSCRIPTION. OTHER BANKS LIKE PALMPAY AND MONIEPOINT E.T.C ARE ALLOWED.
+        DONT USE OPAY AND PALMPAY TO PAY FOR SUBSCRIPTION. OTHER BANKS LIKE MONIEPOINT E.T.C ARE ALLOWED.
       </div>
 
       {/* Selected Plan Summary */}
@@ -147,7 +147,7 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
           <div className="bg-green-glow/10 p-3 rounded-lg flex items-start space-x-2">
             <Icons.AlertTriangle size={16} className="text-green-glow flex-shrink-0 mt-0.5" />
             <p className="text-[10px] text-green-glow/80 leading-tight font-medium">
-              Ensure you pay the exact amount for your selected plan. Transfers from OPay are strictly prohibited.
+              Ensure you pay the exact amount for your selected plan. Transfers from OPAY and PALMPAY are strictly prohibited.
             </p>
           </div>
         </div>

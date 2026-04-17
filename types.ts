@@ -9,17 +9,6 @@ export interface MenuItem {
   badge?: string;
 }
 
-export interface PromoItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  value: string;
-  valueLabel: string;
-  buttonText: string;
-  theme: 'purple' | 'blue' | 'orange';
-  badge?: string;
-}
-
 export interface Transaction {
   id: string;
   type: 'credit' | 'debit';
@@ -67,8 +56,6 @@ export interface User {
   dailyQuizCount?: number;
   lastQuizTimestamp?: number;
   hasPlayedWelcomeVoice?: boolean;
-  promoCodesUsed?: string[];
-  promoExpiry?: number;
 }
 
 export interface Plan {

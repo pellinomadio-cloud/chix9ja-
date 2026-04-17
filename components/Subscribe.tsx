@@ -6,7 +6,6 @@ import { Plan } from '../types';
 interface SubscribeProps {
   onPlanSelect: (plan: Plan) => void;
   userBalance: number;
-  promoExpiry?: number;
 }
 
 // Extended plan interface locally for display purposes
@@ -14,31 +13,23 @@ interface PlanDisplay extends Plan {
   limitDescription: string;
 }
 
-const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance, promoExpiry }) => {
+const Subscribe: React.FC<SubscribeProps> = ({ onPlanSelect, userBalance }) => {
   const [showAdvert, setShowAdvert] = useState(false);
-  const [now, setNow] = useState(Date.now());
-
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const isPromoActive = promoExpiry ? now < promoExpiry : false;
 
   const plans: PlanDisplay[] = [
     { 
       id: 'weekly', 
       name: 'Weekly Plan', 
-      price: isPromoActive ? '₦4,500' : '₦8,000', 
-      amount: isPromoActive ? '4,500 Naira' : '8,000 Naira', 
+      price: '₦8,000', 
+      amount: '8,000 Naira', 
       duration: '7 Days',
       limitDescription: 'Withdraw limit: ₦200,000 / week'
     },
     { 
       id: 'monthly', 
       name: 'Monthly Plan', 
-      price: isPromoActive ? '₦7,000' : '₦15,000', 
-      amount: isPromoActive ? '7,000 Naira' : '15,000 Naira', 
+      price: '₦15,000', 
+      amount: '15,000 Naira', 
       duration: '30 Days', 
       recommended: true,
       limitDescription: 'Withdraw limit: ₦2,000,000 / month'

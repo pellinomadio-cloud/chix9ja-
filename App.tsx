@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import BalanceCard from './components/BalanceCard';
 import ActionGrid from './components/ActionGrid';
-import PromoSection from './components/PromoSection';
 import Banner from './components/Banner';
 import BottomNav from './components/BottomNav';
 import Login from './components/Login';
@@ -697,7 +696,7 @@ const App: React.FC = () => {
               ) : activeTab === 'invest' && user ? (
                 <Investment user={user} onBack={handleBack} />
               ) : activeTab === 'subscribe' ? (
-                <Subscribe onPlanSelect={handlePlanSelect} userBalance={user?.balance || 0} promoExpiry={user?.promoExpiry} />
+                <Subscribe onPlanSelect={handlePlanSelect} userBalance={user?.balance || 0} />
               ) : activeTab === 'subscribe_payment' && selectedPlan ? (
                 <SubscribePayment plan={selectedPlan} userEmail={user?.email || ''} onPaymentComplete={handlePaymentComplete} />
               ) : activeTab === 'upgrade_proposal' ? (
@@ -795,7 +794,6 @@ const App: React.FC = () => {
                       onHistoryClick={() => setActiveTab('transaction_history')} 
                     />
                     <ActionGrid onActionClick={handleGridAction} />
-                    <PromoSection />
                     <Banner />
                 </main>
               )}

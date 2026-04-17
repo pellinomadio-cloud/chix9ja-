@@ -306,7 +306,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ user, onTransfer, onSubscribeRedi
         <button
             type="submit"
             disabled={isLoading || !bank || !accountNumber || !amount}
-            className="w-full py-4 bg-green-glow hover:bg-green-dark disabled:bg-gray-800 text-black font-bold rounded-full shadow-lg transition-all mt-4 flex items-center justify-center space-x-2 animate-green-glow-button"
+            className="w-full py-4 bg-amber-400 hover:bg-amber-500 disabled:bg-gray-800 text-black font-bold rounded-full shadow-lg transition-all mt-4 flex items-center justify-center space-x-2 animate-gold-glow-button"
         >
             {isLoading ? (
                 <span>Processing...</span>
@@ -319,6 +319,14 @@ const SendMoney: React.FC<SendMoneyProps> = ({ user, onTransfer, onSubscribeRedi
         </button>
       </form>
       <style>{`
+        @keyframes gold-glow-button {
+          0% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.4); }
+          50% { box-shadow: 0 0 15px rgba(251, 191, 36, 0.8); }
+          100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.4); }
+        }
+        .animate-gold-glow-button {
+          animation: gold-glow-button 2s infinite ease-in-out;
+        }
         @keyframes green-glow-button {
           0% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.4); }
           50% { box-shadow: 0 0 15px rgba(0, 255, 127, 0.8); }

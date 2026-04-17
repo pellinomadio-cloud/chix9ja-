@@ -15,8 +15,33 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
   const [showWarning, setShowWarning] = useState(true);
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [copied, setCopied] = useState(false);
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [isPromoCodeApplied, setIsPromoCodeApplied] = useState(false);
 
   const accountNumber = "0435119272";
+
+  const getPrice = () => {
+    if (isPromoCodeApplied) {
+      if (plan.id === 'weekly') return '₦6,000';
+      if (plan.id === 'monthly') return '₦10,000';
+      if (plan.id === 'yearly') return '₦25,000';
+    }
+    return plan.price;
+  };
+
+  const handleApplyPromo = () => {
+    if (promoCodeInput.trim() === '987789') {
+      setIsPromoCodeApplied(true);
+    } else {
+      alert('Invalid promo code');
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && promoCodeInput) {
+      handleApplyPromo();
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber);
@@ -103,16 +128,53 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
       </div>
 
       {/* Selected Plan Summary */}
-      <div className="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800 shadow-sm">
+      <div className="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800 shadow-sm relative overflow-hidden">
+        {isPromoCodeApplied && (
+          <div className="absolute top-0 right-0 bg-amber-500 text-black text-[8px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-tighter animate-pulse">
+            PROMO APPLIED
+          </div>
+        )}
         <div>
             <p className="text-xs text-green-glow font-bold uppercase tracking-wide">Selected Plan</p>
             <h3 className="text-lg font-bold text-white">{plan.name}</h3>
         </div>
         <div className="text-right">
-            <p className="text-lg font-extrabold text-green-glow">{plan.price}</p>
-            <p className="text-xs text-gray-500">{plan.duration}</p>
+            <p className={`text-xl font-black transition-all duration-300 ${isPromoCodeApplied ? 'text-amber-400 scale-110' : 'text-green-glow'}`}>
+              {getPrice()}
+            </p>
+            {isPromoCodeApplied && (
+              <p className="text-[10px] text-gray-500 line-through font-bold">{plan.price}</p>
+            )}
+            <p className="text-xs text-gray-500 font-medium">{plan.duration}</p>
         </div>
       </div>
+
+      {/* Promo Code Section */}
+      {!isPromoCodeApplied && (
+        <div className="bg-gray-900/50 p-4 rounded-xl border border-gray-800 space-y-3 shadow-inner">
+          <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1 flex items-center">
+            <Icons.Tag size={10} className="mr-1" />
+            Have a promo code?
+          </label>
+          <div className="flex space-x-2">
+            <input 
+              type="text" 
+              value={promoCodeInput}
+              onChange={(e) => setPromoCodeInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder="Enter Code (e.g. 987789)"
+              className="flex-1 bg-black/40 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-green-glow transition-colors"
+            />
+            <button 
+              onClick={handleApplyPromo}
+              disabled={!promoCodeInput}
+              className="px-6 py-2 bg-green-glow hover:bg-green-dark text-black rounded-xl text-xs font-black active:scale-95 disabled:opacity-50 transition-all shadow-lg"
+            >
+              APPLY
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Account Details Section */}
       <div className="space-y-4">
@@ -144,10 +206,10 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
             </div>
           </div>
           
-          <div className="bg-green-glow/10 p-3 rounded-lg flex items-start space-x-2">
+          <div className="bg-green-glow/10 p-3 rounded-lg flex items-start space-x-2 border border-green-glow/20">
             <Icons.AlertTriangle size={16} className="text-green-glow flex-shrink-0 mt-0.5" />
             <p className="text-[10px] text-green-glow/80 leading-tight font-medium">
-              Ensure you pay the exact amount for your selected plan. Transfers from OPAY and PALMPAY are strictly prohibited.
+              Ensure you pay exactly <span className="font-black text-white">{getPrice()}</span> for your selected plan. Transfers from OPAY and PALMPAY are strictly prohibited.
             </p>
           </div>
         </div>

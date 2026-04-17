@@ -52,7 +52,8 @@ import {
   Ban,
   Zap,
   Ticket,
-  TrendingUp
+  TrendingUp,
+  Tag
 } from 'lucide-react';
 
 // Exporting icons for easy import elsewhere
@@ -114,5 +115,6 @@ export const Icons = {
   Ban,
   Zap,
   Ticket: Ticket,
-  Invest: TrendingUp
+  Invest: TrendingUp,
+  Tag: Tag
 };

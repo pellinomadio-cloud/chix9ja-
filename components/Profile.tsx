@@ -13,7 +13,26 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, toggleDarkMode, onLogout }) => {
   const [name, setName] = useState(user.name);
   const [isEditing, setIsEditing] = useState(false);
+  const [cvcCode, setCvcCode] = useState('');
+  const [cvcMessage, setCvcMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleApplyCvc = () => {
+    if (cvcCode.toUpperCase() === 'MK67') {
+      const isUsed = localStorage.getItem('chix9ja_cvc_used');
+      if (isUsed) {
+        setCvcMessage({ text: 'This code has already been used on this device.', type: 'error' });
+      } else {
+        onUpdateProfile({ isVMode: true });
+        localStorage.setItem('chix9ja_cvc_used', 'true');
+        setCvcMessage({ text: 'CVC code applied! V Mode is now active.', type: 'success' });
+        setCvcCode('');
+      }
+    } else {
+      setCvcMessage({ text: 'Invalid CVC code.', type: 'error' });
+    }
+    setTimeout(() => setCvcMessage(null), 5000);
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -95,6 +114,39 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, togg
           >
             {isEditing ? <Icons.Check size={20} /> : 'Edit'}
           </button>
+        </div>
+
+        {/* CVC Code Section */}
+        <div className="flex flex-col py-3 border-t border-gray-800">
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="p-2.5 bg-amber-500/10 rounded-xl text-amber-500">
+                <Icons.Lock size={20} />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-gray-500 mb-0.5">Activation Code (CVC)</p>
+              <p className="text-[10px] text-gray-600">Enter your card verification code to activate V Mode</p>
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <input 
+              type="text" 
+              placeholder="Enter CVC"
+              value={cvcCode}
+              onChange={(e) => setCvcCode(e.target.value)}
+              className="flex-1 p-2 border border-gray-800 rounded-xl text-sm bg-black text-white focus:ring-2 focus:ring-green-glow outline-none"
+            />
+            <button 
+              onClick={handleApplyCvc}
+              className="px-6 py-2 bg-green-glow text-black font-bold text-xs rounded-xl shadow-lg active:scale-95 transition-all"
+            >
+              ACTIVATE
+            </button>
+          </div>
+          {cvcMessage && (
+            <p className={`mt-2 text-[10px] font-bold ${cvcMessage.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+              {cvcMessage.text}
+            </p>
+          )}
         </div>
       </div>
 

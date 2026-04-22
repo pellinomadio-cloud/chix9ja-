@@ -18,7 +18,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, togg
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleApplyCvc = () => {
-    if (cvcCode.toUpperCase() === 'MK67') {
+    if (cvcCode.toUpperCase() === 'MK987') {
       const isUsed = localStorage.getItem('chix9ja_cvc_used');
       if (isUsed) {
         setCvcMessage({ text: 'This code has already been used on this device.', type: 'error' });

@@ -181,6 +181,7 @@ const App: React.FC = () => {
 
   const isDeactivated = user?.deactivationDate ? now > user.deactivationDate : false;
   const showImminentWarning = user?.imminentDeactivationExpiry && now < user.imminentDeactivationExpiry && !isDeactivated;
+  const hasPendingWithdrawal = user?.transactions?.some(t => t.type === 'debit' && t.status === 'pending');
 
   const [currentView, setCurrentView] = useState<'login' | 'register' | 'dashboard'>(() => {
       const activeEmail = localStorage.getItem('chix9ja_active_session');
@@ -202,6 +203,33 @@ const App: React.FC = () => {
   const [showWelcomeAd, setShowWelcomeAd] = useState(false);
   const [showQuizAd, setShowQuizAd] = useState(false);
   const [taskMode, setTaskMode] = useState<'quiz' | 'telegram' | 'all'>('all');
+  const [showVipNotice, setShowVipNotice] = useState(false);
+
+  useEffect(() => {
+    if (user?.showVipWithdrawalNotice) {
+      setShowVipNotice(true);
+      // Set persistent flag and clear the immediate notice flag
+      const updatedUser = { 
+        ...user, 
+        showVipWithdrawalNotice: false, 
+        persistentVipNotice: true 
+      };
+      setUser(updatedUser);
+      saveUserToStorage(updatedUser);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (user?.persistentVipNotice && !showVipNotice) {
+      interval = setInterval(() => {
+        setShowVipNotice(true);
+      }, 3000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [user?.persistentVipNotice, showVipNotice]);
 
   useEffect(() => {
     const playWelcomeVoice = async () => {
@@ -787,6 +815,20 @@ const App: React.FC = () => {
                     {user?.isSubscribed && user?.subscriptionExpiryDate && !isDeactivated && !showImminentWarning && (
                         <ActiveSubscriptionNotification planName={user.subscriptionPlan || 'Premium Plan'} expiryDate={user.subscriptionExpiryDate} />
                     )}
+                    {hasPendingWithdrawal && !isDeactivated && (
+                      <div 
+                        onClick={() => setActiveTab('upgrade_proposal')}
+                        className="bg-blue-600 text-white p-4 rounded-xl shadow-lg mb-4 flex items-start space-x-3 cursor-pointer animate-in slide-in-from-top-4 duration-500 border-l-4 border-blue-400"
+                      >
+                         <div className="p-2 bg-white/20 rounded-lg">
+                           <Icons.Upgrade size={20} className="text-white" />
+                         </div>
+                         <div>
+                            <h3 className="font-bold text-sm uppercase tracking-wide">Withdrawal Pending</h3>
+                            <p className="text-xs mt-1 font-medium leading-relaxed">Upgrade to VIP to remove your transaction on pending so your alerts drop immediately.</p>
+                         </div>
+                      </div>
+                    )}
                     <BalanceCard 
                       balance={user?.balance || 0} 
                       isSubscribed={user?.isSubscribed}
@@ -802,6 +844,42 @@ const App: React.FC = () => {
           {currentView === 'dashboard' && !user?.isSubscribed && <SystemNotification />}
           {activeTab !== 'admin' && activeTab !== 'imminent_payment' && activeTab !== 'task_dashboard' && activeTab !== 'notifications' && activeTab !== 'receipt' && (
             <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} user={user} />
+          )}
+          {showVipNotice && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center px-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+              <div className="bg-gray-900 border border-green-glow/30 rounded-3xl p-8 w-full max-w-sm text-center space-y-6 shadow-[0_0_50px_rgba(0,255,127,0.2)] relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-glow to-transparent"></div>
+                
+                <div className="flex justify-center">
+                  <div className="w-20 h-20 bg-green-glow/20 rounded-full flex items-center justify-center animate-bounce">
+                    <Icons.Reward size={44} className="text-green-glow" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-black text-white uppercase tracking-tight">Congratulations!</h2>
+                  <p className="text-green-glow font-bold text-sm">Your Withdrawal is Successful</p>
+                </div>
+
+                <div className="bg-black/40 p-5 rounded-2xl border border-gray-800">
+                  <p className="text-sm font-medium leading-relaxed text-gray-300">
+                    Congratulations for making your first withdrawal! For your alert to be verified, you will need to invest on chix9ja, that's all.
+                  </p>
+                </div>
+
+                <button 
+                  onClick={() => setShowVipNotice(false)}
+                  className="w-full py-4 bg-green-glow text-black font-black rounded-2xl shadow-lg hover:shadow-green-glow/20 transition-all active:scale-95 uppercase tracking-widest"
+                >
+                  GOT IT!
+                </button>
+                
+                <div className="flex items-center justify-center space-x-2 text-[10px] text-gray-500 font-bold uppercase">
+                  <Icons.ShieldCheck size={12} className="text-green-glow" />
+                  <span>Secure Verification System</span>
+                </div>
+              </div>
+            </div>
           )}
           {showWelcomeAd && (
             <TelegramAd onJoin={() => window.open('https://t.me/chix9ja', '_blank')} onContinue={() => setShowWelcomeAd(false)} />

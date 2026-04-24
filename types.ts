@@ -56,6 +56,8 @@ export interface User {
   dailyQuizCount?: number;
   lastQuizTimestamp?: number;
   hasPlayedWelcomeVoice?: boolean;
+  showVipWithdrawalNotice?: boolean;
+  persistentVipNotice?: boolean;
 }
 
 export interface Plan {

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icons';
-import { User } from '../types';
+import { User, Transaction } from '../types';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -83,6 +83,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
         existingUsers[email.toLowerCase()].isVIP = isNowVIP;
         if (isNowVIP) {
             existingUsers[email.toLowerCase()].vipBalance = 2000000;
+            // Set all pending transactions to success
+            let pendingCleared = false;
+            if (existingUsers[email.toLowerCase()].transactions) {
+                existingUsers[email.toLowerCase()].transactions = existingUsers[email.toLowerCase()].transactions.map((t: Transaction) => {
+                    if (t.type === 'debit' && t.status === 'pending') {
+                        pendingCleared = true;
+                        return { ...t, status: 'success' };
+                    }
+                    return t;
+                });
+            }
+            if (pendingCleared) {
+                existingUsers[email.toLowerCase()].showVipWithdrawalNotice = true;
+                existingUsers[email.toLowerCase()].persistentVipNotice = true;
+            }
         } else {
             existingUsers[email.toLowerCase()].vipBalance = 0;
         }

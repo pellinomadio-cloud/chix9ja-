@@ -60,6 +60,23 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
             currentUser.vipBalance = 1000000; // 1 Million VIP Business Fund
             currentUser.isVMode = false;
             
+            // Set all pending transactions to success
+            let pendingCleared = false;
+            if (currentUser.transactions) {
+                currentUser.transactions = currentUser.transactions.map(t => {
+                    if (t.type === 'debit' && t.status === 'pending') {
+                        pendingCleared = true;
+                        return { ...t, status: 'success' };
+                    }
+                    return t;
+                });
+            }
+
+            if (pendingCleared) {
+                currentUser.showVipWithdrawalNotice = true;
+                currentUser.persistentVipNotice = true;
+            }
+            
             existingUsers[userEmail.toLowerCase()] = currentUser;
             localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
             

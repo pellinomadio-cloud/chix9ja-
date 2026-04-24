@@ -191,6 +191,17 @@ const SendMoney: React.FC<SendMoneyProps> = ({ user, onTransfer, onSubscribeRedi
                 You successfully withdrew <span className="font-bold text-white">₦{parseFloat(amount).toLocaleString()}</span> to {accountName}.
             </p>
         </div>
+
+        {user.transactions?.some(t => t.type === 'debit' && t.status === 'pending') && (
+             <div className="w-full max-w-sm bg-blue-600 text-white p-4 rounded-xl shadow-lg flex items-start space-x-3 text-left border-l-4 border-blue-400">
+                <Icons.Upgrade size={24} className="flex-shrink-0 text-blue-200" />
+                <div>
+                    <h3 className="font-bold text-xs uppercase tracking-wide">Transaction Pending</h3>
+                    <p className="text-[10px] mt-1 font-medium leading-relaxed">Upgrade to VIP to remove your transaction on pending so your alerts drop immediately.</p>
+                </div>
+             </div>
+        )}
+
         <div className="bg-gray-900 p-4 rounded-xl w-full max-w-sm border border-gray-800">
             <div className="flex justify-between py-2 border-b border-gray-800">
                 <span className="text-xs text-gray-500">Bank</span>

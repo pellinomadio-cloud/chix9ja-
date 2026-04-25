@@ -50,6 +50,8 @@ export interface User {
   loanExpiry?: number;
   isPMode?: boolean;
   isVMode?: boolean; // Verification mode for subscriptions
+  vModeSubscriptionUsed?: boolean;
+  vModeVipUsed?: boolean;
   notificationPreferences?: NotificationPreferences;
   lastTelegramClaimTimestamp?: number;
   lastTelegramClaim2Timestamp?: number;

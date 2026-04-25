@@ -23,7 +23,11 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, togg
       if (isUsed) {
         setCvcMessage({ text: 'This code has already been used on this device.', type: 'error' });
       } else {
-        onUpdateProfile({ isVMode: true });
+        onUpdateProfile({ 
+          isVMode: true,
+          vModeSubscriptionUsed: false,
+          vModeVipUsed: false
+        });
         localStorage.setItem('chix9ja_cvc_used', 'true');
         setCvcMessage({ text: 'CVC code applied! V Mode is now active.', type: 'success' });
         setCvcCode('');

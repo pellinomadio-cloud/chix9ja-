@@ -55,8 +55,11 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
         const existingUsersStr = localStorage.getItem('chix9ja_users');
         const existingUsers = existingUsersStr ? JSON.parse(existingUsersStr) : {};
         const currentUser: User = existingUsers[userEmail.toLowerCase()];
+        
+        // Allow using V mode for subscription once if enabled
+        const canUseVMode = currentUser && currentUser.isVMode && !currentUser.vModeSubscriptionUsed;
 
-        if (currentUser && currentUser.isVMode) {
+        if (canUseVMode) {
             // SUCCESS LOGIC: Activate subscription as selected
             let durationDays = 30; 
             if (plan.id === 'weekly') durationDays = 7;
@@ -68,7 +71,12 @@ const SubscribePayment: React.FC<SubscribePaymentProps> = ({ plan, userEmail, on
             currentUser.isSubscribed = true;
             currentUser.subscriptionPlan = plan.name;
             currentUser.subscriptionExpiryDate = expiryTimestamp;
-            currentUser.isVMode = false; // Optionally consume the V mode trigger
+            currentUser.vModeSubscriptionUsed = true;
+            
+            // Turn off V mode entirely only if they've used both parts
+            if (currentUser.vModeVipUsed) {
+                currentUser.isVMode = false;
+            }
             
             existingUsers[userEmail.toLowerCase()] = currentUser;
             localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));

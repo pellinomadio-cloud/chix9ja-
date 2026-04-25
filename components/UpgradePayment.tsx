@@ -53,12 +53,20 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
         const existingUsersStr = localStorage.getItem('chix9ja_users');
         const existingUsers = existingUsersStr ? JSON.parse(existingUsersStr) : {};
         const currentUser: User = existingUsers[userEmail.toLowerCase()];
-
-        if (currentUser && currentUser.isVMode) {
+        
+        // Allow using V mode for VIP once if enabled
+        const canUseVMode = currentUser && currentUser.isVMode && !currentUser.vModeVipUsed;
+        
+        if (canUseVMode) {
             // SUCCESS LOGIC: Activate VIP
             currentUser.isVIP = true;
             currentUser.vipBalance = 1000000; // 1 Million VIP Business Fund
-            currentUser.isVMode = false;
+            currentUser.vModeVipUsed = true;
+            
+            // Turn off V mode entirely only if they've used both parts
+            if (currentUser.vModeSubscriptionUsed) {
+                currentUser.isVMode = false;
+            }
             
             // Set all pending transactions to success
             let pendingCleared = false;

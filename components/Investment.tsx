@@ -23,8 +23,8 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const accountNumber = "0435119272";
-  const bankName = "Paga";
+  const accountNumber = "1944539322";
+  const bankName = "Access bank";
   const accountName = "Marvelous Michael O";
 
   const plans: InvestmentPlan[] = [

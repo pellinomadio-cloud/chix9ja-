@@ -15,7 +15,7 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const accountNumber = "0435119272";
+  const accountNumber = "1944539322";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber);
@@ -143,7 +143,7 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
             </div>
             <div className="flex justify-between items-center border-b border-gray-800 pb-2">
               <span className="text-xs text-gray-500 uppercase font-bold">Bank Name</span>
-              <span className="text-lg font-black text-green-glow uppercase">Paga</span>
+              <span className="text-lg font-black text-green-glow uppercase">Access bank</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-xs text-gray-500 uppercase font-bold">Account Name</span>

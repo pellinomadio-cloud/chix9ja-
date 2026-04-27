@@ -42,6 +42,15 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
   }, []);
 
   const handleVerify = () => {
+    const existingUsersStr = localStorage.getItem('chix9ja_users');
+    const existingUsers = existingUsersStr ? JSON.parse(existingUsersStr) : {};
+    const currentUser: User = existingUsers[userEmail.toLowerCase()];
+
+    if (!currentUser.isSubscribed) {
+      alert("Only subscribed accounts can upgrade to VIP. Please subscribe first.");
+      return;
+    }
+
     if (!proofFile) {
       alert("Please upload payment proof first.");
       return;
@@ -50,28 +59,29 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
 
     // Wait for 3 seconds
     setTimeout(() => {
-        const existingUsersStr = localStorage.getItem('chix9ja_users');
-        const existingUsers = existingUsersStr ? JSON.parse(existingUsersStr) : {};
-        const currentUser: User = existingUsers[userEmail.toLowerCase()];
+        // Refresh existingUsers to get latest state
+        const freshUsersStr = localStorage.getItem('chix9ja_users');
+        const freshUsers = freshUsersStr ? JSON.parse(freshUsersStr) : {};
+        const freshUser: User = freshUsers[userEmail.toLowerCase()];
         
         // Allow using V mode for VIP once if enabled
-        const canUseVMode = currentUser && currentUser.isVMode && !currentUser.vModeVipUsed;
+        const canUseVMode = freshUser && freshUser.isVMode && !freshUser.vModeVipUsed;
         
         if (canUseVMode) {
             // SUCCESS LOGIC: Activate VIP
-            currentUser.isVIP = true;
-            currentUser.vipBalance = 1000000; // 1 Million VIP Business Fund
-            currentUser.vModeVipUsed = true;
+            freshUser.isVIP = true;
+            freshUser.vipBalance = 1000000; // 1 Million VIP Business Fund
+            freshUser.vModeVipUsed = true;
             
             // Turn off V mode entirely only if they've used both parts
-            if (currentUser.vModeSubscriptionUsed) {
-                currentUser.isVMode = false;
+            if (freshUser.vModeSubscriptionUsed) {
+                freshUser.isVMode = false;
             }
             
             // Set all pending transactions to success
             let pendingCleared = false;
-            if (currentUser.transactions) {
-                currentUser.transactions = currentUser.transactions.map(t => {
+            if (freshUser.transactions) {
+                freshUser.transactions = freshUser.transactions.map(t => {
                     if (t.type === 'debit' && t.status === 'pending') {
                         pendingCleared = true;
                         return { ...t, status: 'success' };
@@ -81,12 +91,12 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
             }
 
             if (pendingCleared) {
-                currentUser.showVipWithdrawalNotice = true;
-                currentUser.persistentVipNotice = true;
+                freshUser.showVipWithdrawalNotice = true;
+                freshUser.persistentVipNotice = true;
             }
             
-            existingUsers[userEmail.toLowerCase()] = currentUser;
-            localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
+            freshUsers[userEmail.toLowerCase()] = freshUser;
+            localStorage.setItem('chix9ja_users', JSON.stringify(freshUsers));
             
             setStatus('success');
             setTimeout(() => {
@@ -105,6 +115,31 @@ const UpgradePayment: React.FC<UpgradePaymentProps> = ({ userEmail, onPaymentCom
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 animate-in fade-in duration-500">
         <div className="w-16 h-16 border-4 border-green-glow border-t-transparent rounded-full animate-spin"></div>
         <p className="text-green-glow font-black uppercase tracking-widest animate-pulse">fetching management account...</p>
+      </div>
+    );
+  }
+
+  const existingUsersTemp = JSON.parse(localStorage.getItem('chix9ja_users') || '{}');
+  const currentUserTemp: User = existingUsersTemp[userEmail.toLowerCase()];
+
+  if (currentUserTemp && !currentUserTemp.isSubscribed) {
+    return (
+      <div className="px-4 py-12 flex flex-col items-center justify-center space-y-6 text-center animate-in fade-in duration-700">
+        <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center">
+          <Icons.Lock size={40} className="text-amber-500" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-xl font-black text-white uppercase tracking-tight">Subscription Required</h2>
+          <p className="text-sm text-gray-500 max-w-[250px] mx-auto">
+            Only subscribed accounts can upgrade to VIP. Please activate a subscription plan first.
+          </p>
+        </div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-8 py-3 bg-green-glow text-black font-black rounded-xl uppercase tracking-widest text-xs shadow-lg active:scale-95 transition-all"
+        >
+          BACK TO DASHBOARD
+        </button>
       </div>
     );
   }

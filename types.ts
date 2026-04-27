@@ -52,6 +52,7 @@ export interface User {
   isVMode?: boolean; // Verification mode for subscriptions
   vModeSubscriptionUsed?: boolean;
   vModeVipUsed?: boolean;
+  vModeInvestmentUsed?: boolean;
   notificationPreferences?: NotificationPreferences;
   lastTelegramClaimTimestamp?: number;
   lastTelegramClaim2Timestamp?: number;

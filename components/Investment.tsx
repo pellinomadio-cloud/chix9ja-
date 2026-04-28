@@ -15,14 +15,21 @@ interface InvestmentPlan {
 interface InvestmentProps {
   user: User;
   onBack: () => void;
+  onUpdateUser: (updatedFields: Partial<User>) => void;
 }
 
-const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
+const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) => {
   const [selectedPlan, setSelectedPlan] = useState<InvestmentPlan | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed' | 'success'>('idle');
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [copied, setCopied] = useState(false);
-  const [step, setStep] = useState<'plans' | 'payment' | 'account_details' | 'verification_payment'>('plans');
+  const [step, setStep] = useState<'plans' | 'payment' | 'account_details' | 'verification_payment'>(user.pendingInvestmentStep || 'plans');
+
+  useEffect(() => {
+    if (user.pendingInvestmentStep && user.pendingInvestmentStep !== step) {
+      setStep(user.pendingInvestmentStep);
+    }
+  }, [user.pendingInvestmentStep]);
   
   // Withdrawal details state
   const [withdrawalAccount, setWithdrawalAccount] = useState({
@@ -63,11 +70,17 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
 
       if (canUseVMode) {
         currentUser.vModeInvestmentUsed = true;
+        currentUser.pendingInvestmentStep = 'account_details';
         // Turn off V mode entirely only if they've used all parts
         if (currentUser.vModeSubscriptionUsed && currentUser.vModeVipUsed) {
           currentUser.isVMode = false;
         }
         localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
+        onUpdateUser({ 
+          vModeInvestmentUsed: true, 
+          pendingInvestmentStep: 'account_details',
+          isVMode: currentUser.isVMode
+        });
         setStatus('success');
         setStep('account_details');
       } else {
@@ -81,6 +94,7 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
       alert("Please fill in all account details.");
       return;
     }
+    onUpdateUser({ pendingInvestmentStep: 'verification_payment' });
     setStep('verification_payment');
   };
 
@@ -110,7 +124,10 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
     return (
       <div className="px-4 py-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
         <div className="flex items-center space-x-2">
-          <button onClick={() => setStep('account_details')} className="p-2 rounded-full hover:bg-gray-800">
+          <button onClick={() => {
+            setStep('account_details');
+            onUpdateUser({ pendingInvestmentStep: 'account_details' });
+          }} className="p-2 rounded-full hover:bg-gray-800">
             <Icons.ArrowLeft size={24} className="text-amber-500" />
           </button>
           <h2 className="text-xl font-bold text-amber-500 uppercase tracking-widest">Verification Payment</h2>
@@ -153,6 +170,7 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
         <div className="space-y-3">
           <button 
             onClick={() => {
+              onUpdateUser({ pendingInvestmentStep: null });
               alert("Wait for reversal... Verification payment sent check.");
               window.location.reload();
             }}
@@ -169,6 +187,12 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack }) => {
     return (
       <div className="px-4 py-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
         <div className="flex items-center space-x-2">
+          <button onClick={() => {
+            setStep('plans');
+            onUpdateUser({ pendingInvestmentStep: null });
+          }} className="p-2 rounded-full hover:bg-gray-800">
+            <Icons.ArrowLeft size={24} className="text-amber-500" />
+          </button>
           <h2 className="text-xl font-bold text-amber-500 uppercase tracking-widest">Withdrawal Account</h2>
         </div>
 

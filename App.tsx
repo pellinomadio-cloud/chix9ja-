@@ -722,7 +722,7 @@ const App: React.FC = () => {
               ) : activeTab === 'loan' && user ? (
                 <Loan user={user} onApply={handleApplyLoan} onBack={handleBack} />
               ) : activeTab === 'invest' && user ? (
-                <Investment user={user} onBack={handleBack} />
+                <Investment user={user} onBack={handleBack} onUpdateUser={handleUpdateProfile} />
               ) : activeTab === 'subscribe' ? (
                 <Subscribe onPlanSelect={handlePlanSelect} userBalance={user?.balance || 0} />
               ) : activeTab === 'subscribe_payment' && selectedPlan ? (

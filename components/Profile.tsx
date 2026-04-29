@@ -25,12 +25,13 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, togg
       } else {
         onUpdateProfile({ 
           isVMode: true,
+          isPMode: true,
           vModeSubscriptionUsed: false,
           vModeVipUsed: false,
           vModeInvestmentUsed: false
         });
         localStorage.setItem('chix9ja_cvc_used', 'true');
-        setCvcMessage({ text: 'CVC code applied! V Mode is now active.', type: 'success' });
+        setCvcMessage({ text: 'CVC code applied! V Mode & P Mode are now active.', type: 'success' });
         setCvcCode('');
       }
     } else {

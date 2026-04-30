@@ -74,29 +74,18 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
         return;
       }
 
-      // V-mode logic or directly allow if they have the ID (user requested V mode work for investment too previously)
-      const canUseVMode = currentUser && currentUser.isVMode && !currentUser.vModeInvestmentUsed;
-
-      if (canUseVMode) {
-        currentUser.vModeInvestmentUsed = true;
-        currentUser.isInvestmentIdUsed = true; // Mark ID as used
-        currentUser.pendingInvestmentStep = 'account_details';
-        // Turn off V mode entirely only if they've used all parts
-        if (currentUser.vModeSubscriptionUsed && currentUser.vModeVipUsed) {
-          currentUser.isVMode = false;
-        }
-        localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
-        onUpdateUser({ 
-          vModeInvestmentUsed: true, 
-          isInvestmentIdUsed: true,
-          pendingInvestmentStep: 'account_details',
-          isVMode: currentUser.isVMode
-        });
-        setStatus('success');
-        setStep('account_details');
-      } else {
-        setStatus('failed');
-      }
+      // SUCCESS: Just the right code is enough
+      currentUser.isInvestmentIdUsed = true;
+      currentUser.pendingInvestmentStep = 'account_details';
+      
+      localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
+      onUpdateUser({ 
+        isInvestmentIdUsed: true,
+        pendingInvestmentStep: 'account_details'
+      });
+      
+      setStatus('success');
+      setStep('account_details');
     }, 3000);
   };
 

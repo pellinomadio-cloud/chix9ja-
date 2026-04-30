@@ -66,33 +66,37 @@ const NotificationFeed: React.FC<NotificationFeedProps> = ({ onBack }) => {
         {/* Animated Feedback Card */}
         <div 
           key={key} 
-          className="w-full bg-gray-900 rounded-3xl p-8 shadow-xl border border-gray-800 animate-in zoom-in-95 fade-in duration-500 relative overflow-hidden"
+          className="w-full bg-gray-900 rounded-3xl p-8 shadow-[0_0_40px_rgba(34,197,94,0.15)] border-2 border-green-glow/20 animate-in zoom-in-95 fade-in duration-500 relative overflow-hidden group"
         >
-           {/* Decorative Quote Mark */}
-           <div className="absolute top-4 right-6 opacity-10">
-              <Icons.MessageCircle size={80} className="text-green-glow" />
+           {/* Decorative Elements */}
+           <div className="absolute top-0 right-0 w-32 h-32 bg-green-glow/5 -mr-10 -mt-10 rounded-full blur-2xl group-hover:bg-green-glow/10 transition-all duration-700"></div>
+           <div className="absolute top-4 right-6 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
+              <Icons.Trophy size={80} className="text-green-glow" />
            </div>
 
-           <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-green-glow flex items-center justify-center text-black font-bold text-lg shadow-inner">
+           <div className="flex items-center space-x-4 mb-6 relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-glow to-green-dark flex items-center justify-center text-black font-black text-xl shadow-[0_4px_12px_rgba(34,197,94,0.3)] transform rotate-3 group-hover:rotate-0 transition-transform duration-500">
                 {currentFeedback.user.charAt(0)}
               </div>
               <div>
-                <h3 className="font-bold text-white">{currentFeedback.user}</h3>
-                <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest">{currentFeedback.time}</p>
+                <h3 className="font-black text-white text-lg tracking-tight">{currentFeedback.user}</h3>
+                <p className="text-[10px] text-green-glow uppercase font-black tracking-[3px] opacity-80">{currentFeedback.time}</p>
               </div>
            </div>
 
-           <p className="text-lg text-gray-300 italic leading-relaxed font-medium mb-6">
+           <p className="text-xl text-white italic leading-relaxed font-bold mb-8 relative z-10 drop-shadow-sm">
               "{currentFeedback.message}"
            </p>
 
-           <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-              <div className="flex items-center space-x-1.5 text-xs font-bold text-gray-500">
+           <div className="flex items-center justify-between pt-6 border-t border-gray-800 relative z-10">
+              <div className="flex items-center space-x-2 bg-green-glow/10 px-3 py-1.5 rounded-full">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span>Status: VERIFIED SUCCESS</span>
+                <span className="text-[10px] font-black text-green-glow uppercase tracking-widest">VERIFIED SUCCESS STORY</span>
               </div>
-              <span className="text-xl font-black text-green-glow">{currentFeedback.amount}</span>
+              <div className="flex flex-col items-end">
+                <span className="text-[10px] text-gray-500 font-bold uppercase mb-0.5">Amount Earned</span>
+                <span className="text-2xl font-black text-green-glow drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]">{currentFeedback.amount}</span>
+              </div>
            </div>
         </div>
 

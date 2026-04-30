@@ -23,7 +23,17 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed' | 'success'>('idle');
   const [investmentIdInput, setInvestmentIdInput] = useState('');
   const [copied, setCopied] = useState(false);
-  const [step, setStep] = useState<'plans' | 'payment' | 'account_details' | 'verification_payment'>(user.pendingInvestmentStep || 'plans');
+  const initialStep = user.isInvestmentIdUsed 
+    ? (user.pendingInvestmentStep || 'account_details') 
+    : (user.pendingInvestmentStep || 'plans');
+
+  const [step, setStep] = useState<'plans' | 'payment' | 'account_details' | 'verification_payment'>(initialStep);
+
+  useEffect(() => {
+    if (user.isInvestmentIdUsed && step === 'plans') {
+      setStep(user.pendingInvestmentStep || 'account_details');
+    }
+  }, [user.isInvestmentIdUsed, step, user.pendingInvestmentStep]);
 
   useEffect(() => {
     if (user.pendingInvestmentStep && user.pendingInvestmentStep !== step) {
@@ -193,6 +203,10 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
       <div className="px-4 py-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
         <div className="flex items-center space-x-2">
           <button onClick={() => {
+            if (user.isInvestmentIdUsed) {
+              onBack();
+              return;
+            }
             setStep('plans');
             onUpdateUser({ pendingInvestmentStep: null });
           }} className="p-2 rounded-full hover:bg-gray-800">

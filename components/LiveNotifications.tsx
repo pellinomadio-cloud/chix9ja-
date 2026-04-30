@@ -91,7 +91,14 @@ const LiveNotifications: React.FC<LiveNotificationsProps> = ({ preferences }) =>
     <div className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-[60] w-[92%] max-w-sm transition-all duration-700 ease-in-out ${isVisible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-8 opacity-0 scale-90 pointer-events-none'}`}>
       <div className={`backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-[0_0_20px_rgba(34,197,94,0.2)] flex items-center space-x-4 border ${notification.type === 'testimony' ? 'bg-green-glow/10 border-green-glow shadow-green-glow/20 mb-2' : 'bg-black/90 border-green-glow/30'}`}>
         <div className={`${notification.type === 'testimony' ? 'bg-green-glow text-black' : 'bg-green-glow/20 text-green-glow'} p-2.5 rounded-full flex-shrink-0 animate-bounce-slow shadow-lg`}>
-             {notification.type === 'testimony' ? <Icons.Trophy size={18} strokeWidth={3} /> : <Icons.CheckCircle size={18} className="text-green-glow" strokeWidth={3} />}
+             {notification.type === 'testimony' ? (
+               <div className="flex items-center">
+                 <Icons.Trophy size={16} strokeWidth={3} />
+                 <Icons.Celebration size={14} strokeWidth={3} className="ml-0.5 animate-pulse" />
+               </div>
+             ) : (
+               <Icons.CheckCircle size={18} className="text-green-glow" strokeWidth={3} />
+             )}
         </div>
         <div className="flex-1">
             {notification.type === 'testimony' && (

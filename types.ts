@@ -54,6 +54,9 @@ export interface User {
   vModeVipUsed?: boolean;
   vModeInvestmentUsed?: boolean;
   isInvestmentIdUsed?: boolean;
+  isRestricted?: boolean;
+  restrictionType?: 'verification' | 'other';
+  restrictionRestoreTime?: number;
   pendingInvestmentStep?: 'account_details' | 'verification_payment' | null;
   notificationPreferences?: NotificationPreferences;
   lastTelegramClaimTimestamp?: number;

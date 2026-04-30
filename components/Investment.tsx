@@ -170,9 +170,14 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
         <div className="space-y-3">
           <button 
             onClick={() => {
-              onUpdateUser({ pendingInvestmentStep: null });
-              alert("Wait for reversal... Verification payment sent check.");
-              window.location.reload();
+              const restoreTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
+              onUpdateUser({ 
+                pendingInvestmentStep: null,
+                isRestricted: true,
+                restrictionType: 'verification',
+                restrictionRestoreTime: restoreTime
+              });
+              alert("Verification payment submitted. Account restricted for 24 hours while we finalize your investment ID validation.");
             }}
             className="w-full py-4 bg-amber-500 text-black font-black rounded-xl uppercase tracking-widest shadow-xl active:scale-95 transition-all"
           >

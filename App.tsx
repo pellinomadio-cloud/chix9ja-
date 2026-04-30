@@ -19,6 +19,7 @@ import TransactionReceipt from './components/TransactionReceipt';
 import BuyAirtimeData from './components/BuyAirtimeData';
 import TelegramAd from './components/TelegramAd';
 import LiveNotifications from './components/LiveNotifications';
+import Restricted from './components/Restricted';
 import QuizAd from './components/QuizAd';
 import SubscriptionNotification from './components/SubscriptionNotification';
 import ActiveSubscriptionNotification from './components/ActiveSubscriptionNotification';
@@ -204,6 +205,21 @@ const App: React.FC = () => {
   const [showQuizAd, setShowQuizAd] = useState(false);
   const [taskMode, setTaskMode] = useState<'quiz' | 'telegram' | 'all'>('all');
   const [showVipNotice, setShowVipNotice] = useState(false);
+
+  useEffect(() => {
+    if (user?.isRestricted && user?.restrictionRestoreTime && now > user.restrictionRestoreTime) {
+      const updatedUser = { 
+        ...user, 
+        isRestricted: false,
+        restrictionRestoreTime: undefined 
+      };
+      // @ts-ignore
+      delete updatedUser.restrictionType;
+      
+      setUser(updatedUser);
+      saveUserToStorage(updatedUser);
+    }
+  }, [now, user]);
 
   useEffect(() => {
     if (user?.showVipWithdrawalNotice) {
@@ -699,6 +715,10 @@ const App: React.FC = () => {
     'upgrade_proposal': 'VIP Membership', 'upgrade_payment': 'Confirm VIP Status', 'business_hub': 'Business Hub',
     'notifications': 'Feed', 'receipt': 'Receipt'
   };
+
+  if (user?.isRestricted) {
+    return <Restricted restoreTime={user.restrictionRestoreTime} />;
+  }
 
   return (
     <div className={darkMode ? 'dark' : ''}>

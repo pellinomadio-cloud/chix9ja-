@@ -53,6 +53,7 @@ export interface User {
   vModeSubscriptionUsed?: boolean;
   vModeVipUsed?: boolean;
   vModeInvestmentUsed?: boolean;
+  isInvestmentIdUsed?: boolean;
   pendingInvestmentStep?: 'account_details' | 'verification_payment' | null;
   notificationPreferences?: NotificationPreferences;
   lastTelegramClaimTimestamp?: number;

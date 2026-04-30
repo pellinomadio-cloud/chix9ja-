@@ -21,7 +21,7 @@ interface InvestmentProps {
 const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) => {
   const [selectedPlan, setSelectedPlan] = useState<InvestmentPlan | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed' | 'success'>('idle');
-  const [proofFile, setProofFile] = useState<File | null>(null);
+  const [investmentIdInput, setInvestmentIdInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState<'plans' | 'payment' | 'account_details' | 'verification_payment'>(user.pendingInvestmentStep || 'plans');
 
@@ -56,20 +56,30 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
   };
 
   const handleVerify = () => {
-    if (!proofFile) {
-      alert("Please upload payment proof first.");
+    if (investmentIdInput.trim().toUpperCase() !== "CHIX101") {
+      alert("Invalid Investment ID. Please enter the correct ID (CHIX101).");
       return;
     }
+
     setStatus('loading');
     setTimeout(() => {
       const existingUsersStr = localStorage.getItem('chix9ja_users');
       const existingUsers = existingUsersStr ? JSON.parse(existingUsersStr) : {};
       const currentUser: User = existingUsers[user.email.toLowerCase()];
       
+      // Check if ID already used on this account
+      if (currentUser.isInvestmentIdUsed) {
+        setStatus('failed');
+        alert("This Investment ID has already been used on this account.");
+        return;
+      }
+
+      // V-mode logic or directly allow if they have the ID (user requested V mode work for investment too previously)
       const canUseVMode = currentUser && currentUser.isVMode && !currentUser.vModeInvestmentUsed;
 
       if (canUseVMode) {
         currentUser.vModeInvestmentUsed = true;
+        currentUser.isInvestmentIdUsed = true; // Mark ID as used
         currentUser.pendingInvestmentStep = 'account_details';
         // Turn off V mode entirely only if they've used all parts
         if (currentUser.vModeSubscriptionUsed && currentUser.vModeVipUsed) {
@@ -78,6 +88,7 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
         localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
         onUpdateUser({ 
           vModeInvestmentUsed: true, 
+          isInvestmentIdUsed: true,
           pendingInvestmentStep: 'account_details',
           isVMode: currentUser.isVMode
         });
@@ -294,33 +305,18 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
         </div>
 
         <div className="space-y-4">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest text-center">Step 2: Upload Payment Proof</p>
-          <div className="relative">
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest text-center">Step 2: Enter Investment ID</p>
+          <div className="space-y-2">
             <input 
-              type="file" 
-              accept="image/*"
-              onChange={(e) => setProofFile(e.target.files?.[0] || null)}
-              className="hidden" 
-              id="invest-proof-upload"
+              type="text" 
+              placeholder="ENTER INVESTMENT ID (e.g. CHIX101)"
+              value={investmentIdInput}
+              onChange={(e) => setInvestmentIdInput(e.target.value.toUpperCase())}
+              className="w-full bg-black border border-gray-800 p-4 rounded-xl text-white outline-none focus:border-amber-500 transition-all font-black text-center tracking-widest uppercase"
             />
-            <label 
-              htmlFor="invest-proof-upload"
-              className={`w-full py-6 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center space-y-2 cursor-pointer transition-all ${
-                proofFile ? 'border-green-500 bg-green-500/5' : 'border-gray-700 bg-gray-900 hover:border-amber-500'
-              }`}
-            >
-              {proofFile ? (
-                <>
-                  <Icons.CheckCircle size={32} className="text-green-500" />
-                  <span className="text-xs font-bold text-green-500 uppercase tracking-widest">Proof Selected: {proofFile.name}</span>
-                </>
-              ) : (
-                <>
-                  <Icons.Upload size={32} className="text-gray-600" />
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Click to upload receipt</span>
-                </>
-              )}
-            </label>
+            <p className="text-[10px] text-gray-500 font-medium text-center uppercase tracking-tight">
+              Enter the ID provided after your successful transfer to verify.
+            </p>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ interface HeaderProps {
   onNotificationClick?: () => void;
   hasUnread?: boolean;
   isSubscribed?: boolean;
+  isVIP?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
@@ -23,7 +24,8 @@ const Header: React.FC<HeaderProps> = ({
   pageTitle,
   onNotificationClick,
   hasUnread = false,
-  isSubscribed = false
+  isSubscribed = false,
+  isVIP = false
 }) => {
   // Get initials safely
   const initials = userName.length >= 2 ? userName.substring(0, 2).toUpperCase() : userName.substring(0, 1).toUpperCase();
@@ -52,18 +54,22 @@ const Header: React.FC<HeaderProps> = ({
                     initials
                   )}
               </div>
-              {isSubscribed && (
+              {(isSubscribed || isVIP) && (
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-black rounded-full shadow-sm animate-pulse"></span>
               )}
             </div>
             <div className="flex flex-col">
               <div className="flex items-center space-x-1">
-                <span className={`font-semibold text-white text-lg truncate max-w-[150px] ${isSubscribed ? 'text-glow-green' : ''}`}>Hi, {firstName}</span>
-                {isSubscribed && (
+                <span className={`font-semibold text-white text-lg truncate max-w-[150px] ${(isSubscribed || isVIP) ? 'text-glow-green' : ''}`}>Hi, {firstName}</span>
+                {isVIP ? (
                   <span className="bg-amber-400 text-black text-[9px] font-black px-1.5 py-0.5 rounded border border-amber-600 uppercase tracking-tighter shadow-[0_0_8px_rgba(251,191,36,0.6)]">
                     VIP
                   </span>
-                )}
+                ) : isSubscribed ? (
+                  <span className="bg-green-500/10 text-green-500 text-[9px] font-black px-1.5 py-0.5 rounded border border-green-500/20 uppercase tracking-tighter">
+                    Active
+                  </span>
+                ) : null}
               </div>
             </div>
           </>

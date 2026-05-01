@@ -4,11 +4,12 @@ import { Icons } from './Icons';
 interface BalanceCardProps {
   balance: number;
   isSubscribed?: boolean;
+  isVIP?: boolean;
   onAdminClick?: () => void;
   onHistoryClick?: () => void;
 }
 
-const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false, onAdminClick, onHistoryClick }) => {
+const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false, isVIP = false, onAdminClick, onHistoryClick }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const formatCurrency = (amount: number) => {
@@ -32,11 +33,15 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                             {isVisible ? <Icons.Eye size={16} /> : <Icons.EyeOff size={16} />}
                         </button>
                     </div>
-                    {isSubscribed && (
+                    {isVIP ? (
                         <div className="flex items-center text-amber-900 bg-amber-400 px-2 py-0.5 rounded-full text-[10px] font-black w-fit uppercase tracking-wider shadow-[0_0_10px_rgba(251,191,36,0.5)]">
-                            <Icons.Star size={12} className="mr-1 fill-amber-900" /> Subscribed Member
+                            <Icons.Star size={12} className="mr-1 fill-amber-900" /> VIP Member
                         </div>
-                    )}
+                    ) : isSubscribed ? (
+                        <div className="flex items-center text-green-900 bg-white/40 px-2 py-0.5 rounded-full text-[10px] font-bold w-fit uppercase tracking-wider">
+                            <Icons.Star size={12} className="mr-1 fill-green-900" /> Subscribed Member
+                        </div>
+                    ) : null}
                 </div>
                 <button className="text-sm text-black/70 flex items-center font-medium hover:text-black transition-colors">
                     Add Money <Icons.ChevronRight size={14} />

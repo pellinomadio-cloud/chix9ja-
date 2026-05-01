@@ -732,6 +732,7 @@ const App: React.FC = () => {
                     onBack={handleBack} pageTitle={pageTitles[activeTab]}
                     hasUnread={hasUnreadNotifications}
                     isSubscribed={user?.isSubscribed}
+                    isVIP={user?.isVIP}
                     onNotificationClick={() => { setActiveTab('notifications'); setHasUnreadNotifications(false); }}
                   />
               )}
@@ -852,6 +853,7 @@ const App: React.FC = () => {
                     <BalanceCard 
                       balance={user?.balance || 0} 
                       isSubscribed={user?.isSubscribed}
+                      isVIP={user?.isVIP}
                       onAdminClick={() => setActiveTab('admin')} 
                       onHistoryClick={() => setActiveTab('transaction_history')} 
                     />

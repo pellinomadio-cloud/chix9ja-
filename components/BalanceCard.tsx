@@ -34,12 +34,12 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                         </button>
                     </div>
                     {isVIP ? (
-                        <div className="flex items-center text-amber-900 bg-amber-400 px-2 py-0.5 rounded-full text-[10px] font-black w-fit uppercase tracking-wider shadow-[0_0_10px_rgba(251,191,36,0.5)]">
+                        <div className="flex items-center text-amber-900 bg-amber-400 px-2 py-0.5 rounded-full text-[10px] font-black w-fit uppercase tracking-wider shadow-[0_0_10px_rgba(251,191,36,0.5)] animate-gold-shine">
                             <Icons.Star size={12} className="mr-1 fill-amber-900" /> VIP Member
                         </div>
                     ) : isSubscribed ? (
-                        <div className="flex items-center text-green-900 bg-white/40 px-2 py-0.5 rounded-full text-[10px] font-bold w-fit uppercase tracking-wider">
-                            <Icons.Star size={12} className="mr-1 fill-green-900" /> Subscribed Member
+                        <div className="flex items-center text-amber-900 bg-amber-400 px-2 py-0.5 rounded-full text-[10px] font-black w-fit uppercase tracking-wider shadow-[0_0_10px_rgba(251,191,36,0.5)] animate-gold-shine">
+                            <Icons.Star size={12} className="mr-1 fill-amber-900" /> Subscribed Member
                         </div>
                     ) : null}
                 </div>

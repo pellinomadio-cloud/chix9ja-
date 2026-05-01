@@ -60,8 +60,8 @@ const Header: React.FC<HeaderProps> = ({
               <div className="flex items-center space-x-1">
                 <span className={`font-semibold text-white text-lg truncate max-w-[150px] ${isSubscribed ? 'text-glow-green' : ''}`}>Hi, {firstName}</span>
                 {isSubscribed && (
-                  <span className="bg-green-500/10 text-green-500 text-[9px] font-black px-1.5 py-0.5 rounded border border-green-500/20 uppercase tracking-tighter">
-                    Active
+                  <span className="bg-amber-400 text-black text-[9px] font-black px-1.5 py-0.5 rounded border border-amber-600 uppercase tracking-tighter shadow-[0_0_8px_rgba(251,191,36,0.6)]">
+                    VIP
                   </span>
                 )}
               </div>

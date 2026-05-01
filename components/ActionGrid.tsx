@@ -32,8 +32,9 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
       <div className="bg-gray-900 rounded-xl p-4 shadow-sm grid grid-cols-4 gap-2 transition-colors duration-200 border border-gray-800">
         {topRowItems.map((item) => {
           const Icon = item.icon;
-          const isGlowing = ['bank', 'rewards', 'subscribe'].includes(item.id);
           const isWhiteGlowing = item.id === 'subscribe';
+          const isGoldGlowing = item.id === 'bank';
+          const isPinkGlowing = item.id === 'rewards';
           
           return (
             <div 
@@ -44,11 +45,13 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
               <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                 isWhiteGlowing 
                   ? 'bg-white animate-white-glow shadow-[0_0_15px_rgba(255,255,255,0.6)] text-black' 
-                  : isGlowing 
-                    ? 'bg-green-glow/20 animate-green-glow shadow-[0_0_25px_rgba(0,255,65,0.4)] text-green-glow' 
-                    : 'bg-green-glow/10 group-hover:bg-green-glow/20 text-green-glow'
+                  : isGoldGlowing
+                    ? 'bg-amber-400 animate-gold-glow shadow-[0_0_15px_rgba(251,191,36,0.6)] text-black'
+                    : isPinkGlowing
+                      ? 'bg-fuchsia-500 animate-pink-glow shadow-[0_0_15px_rgba(232,121,249,0.6)] text-white'
+                      : 'bg-green-glow/10 group-hover:bg-green-glow/20 text-green-glow'
               }`}>
-                <Icon size={24} fill="currentColor" className={isWhiteGlowing ? 'text-black' : 'text-green-glow'} />
+                <Icon size={24} fill="currentColor" className={isWhiteGlowing || isGoldGlowing ? 'text-black' : (isPinkGlowing ? 'text-white' : 'text-green-glow')} />
               </div>
               <span className="text-xs font-medium text-gray-300 text-center leading-tight">{item.label}</span>
             </div>
@@ -57,21 +60,29 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
       </div>
 
       <style>{`
-        @keyframes green-glow {
-          0% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.3); transform: scale(1); filter: brightness(1); }
-          50% { box-shadow: 0 0 35px rgba(0, 255, 65, 0.8); transform: scale(1.08); filter: brightness(1.3); }
-          100% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.3); transform: scale(1); filter: brightness(1); }
-        }
         @keyframes white-glow {
           0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); transform: scale(1); filter: brightness(1); }
           50% { box-shadow: 0 0 35px rgba(255, 255, 255, 0.8); transform: scale(1.08); filter: brightness(1.3); }
           100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); transform: scale(1); filter: brightness(1); }
         }
-        .animate-green-glow {
-          animation: green-glow 2s infinite ease-in-out;
+        @keyframes gold-glow {
+          0% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); transform: scale(1); filter: brightness(1); }
+          50% { box-shadow: 0 0 35px rgba(251, 191, 36, 0.8); transform: scale(1.08); filter: brightness(1.3); }
+          100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); transform: scale(1); filter: brightness(1); }
+        }
+        @keyframes pink-glow {
+          0% { box-shadow: 0 0 5px rgba(232, 121, 249, 0.3); transform: scale(1); filter: brightness(1); }
+          50% { box-shadow: 0 0 35px rgba(232, 121, 249, 0.8); transform: scale(1.08); filter: brightness(1.3); }
+          100% { box-shadow: 0 0 5px rgba(232, 121, 249, 0.3); transform: scale(1); filter: brightness(1); }
         }
         .animate-white-glow {
           animation: white-glow 2s infinite ease-in-out;
+        }
+        .animate-gold-glow {
+          animation: gold-glow 2s infinite ease-in-out;
+        }
+        .animate-pink-glow {
+          animation: pink-glow 2s infinite ease-in-out;
         }
       `}</style>
 

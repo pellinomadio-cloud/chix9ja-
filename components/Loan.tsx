@@ -53,76 +53,76 @@ const Loan: React.FC<LoanProps> = ({ user, onApply, onBack }) => {
 
   if (!isEligible && !hasActiveLoan) {
     return (
-      <div className="px-4 py-10 flex flex-col items-center justify-center text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="w-24 h-24 bg-green-glow/10 rounded-full flex items-center justify-center text-green-glow">
+      <div className="px-4 py-10 flex flex-col items-center justify-center text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 min-h-screen">
+        <div className="w-24 h-24 bg-amber-400/10 rounded-3xl flex items-center justify-center text-amber-400 floating-button border-amber-400/20">
           <Icons.Lock size={48} />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-white">Loans Restricted</h2>
-          <p className="text-gray-500 mt-2 max-w-xs mx-auto">
-            Free loans are exclusive to <span className="font-bold text-green-glow">Monthly</span> and <span className="font-bold text-green-glow">Yearly</span> subscribers.
+          <h2 className="text-3xl font-black text-white uppercase tracking-tighter">LOANS <span className="text-amber-400">RESTRICTED</span></h2>
+          <p className="text-gray-400 mt-2 max-w-xs mx-auto font-bold text-sm tracking-tight">
+            Free loans are exclusive to <span className="text-amber-400">Monthly</span> and <span className="text-amber-400">Yearly</span> subscribers.
           </p>
         </div>
-        <div className="bg-green-glow/5 p-4 rounded-xl border border-green-glow/10">
-          <p className="text-xs text-green-glow font-medium">
+        <div className="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl">
+          <p className="text-xs text-amber-200 font-bold leading-relaxed">
             Please upgrade your plan to access instant business credit up to ₦500,000 with 0% interest.
           </p>
         </div>
         <button 
           onClick={onBack}
-          className="w-full max-w-sm bg-green-glow hover:bg-green-dark text-black font-bold py-3 rounded-full shadow-lg transition-all"
+          className="w-full max-w-sm bg-amber-400 hover:bg-amber-500 text-black font-black py-4 rounded-xl shadow-xl shadow-amber-400/20 transition-all uppercase tracking-widest active:scale-95 floating-button"
         >
-          Back to Dashboard
+          BACK TO DASHBOARD
         </button>
       </div>
     );
   }
 
   return (
-    <div className="px-4 py-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center justify-center p-3 bg-green-glow/10 rounded-full text-green-glow mb-2">
-          <Icons.Banknote size={32} />
+    <div className="px-4 py-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
+      <div className="text-center space-y-3">
+        <div className="inline-flex items-center justify-center p-4 bg-amber-400/10 rounded-2xl text-amber-400 mb-2 border border-amber-400/20 floating-button">
+          <Icons.Banknote size={40} />
         </div>
-        <h2 className="text-2xl font-bold text-white">Instant Credit</h2>
-        <p className="text-sm text-gray-500">Borrow interest-free. Automated repayment from balance.</p>
+        <h2 className="text-3xl font-black text-white uppercase tracking-tighter">INSTANT <span className="text-amber-400">CREDIT</span></h2>
+        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest opacity-70">Borrow interest-free. Safe & Secure.</p>
       </div>
 
       {hasActiveLoan ? (
-        <div className="bg-green-glow rounded-2xl p-6 text-black shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-black/10 rounded-full -mr-16 -mt-16"></div>
+        <div className="bg-gradient-to-br from-green-glow to-green-dark rounded-3xl p-8 text-black shadow-2xl relative overflow-hidden floating-button border border-green-glow/20">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-black/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
           <div className="relative z-10 flex flex-col items-center text-center">
-            <p className="text-black/70 text-xs font-bold uppercase tracking-widest">Active Loan Balance</p>
-            <h3 className="text-4xl font-black my-2">₦{user.loanBalance?.toLocaleString()}</h3>
-            <div className="bg-black/10 backdrop-blur-md rounded-full px-4 py-1 flex items-center space-x-2 mt-2">
-              <Icons.Clock size={14} />
-              <span className="text-xs font-bold">{timeLeft}</span>
+            <p className="text-black text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Active Loan Balance</p>
+            <h3 className="text-5xl font-black my-4 tracking-tighter">₦{user.loanBalance?.toLocaleString()}</h3>
+            <div className="bg-black text-green-glow rounded-full px-6 py-2 flex items-center space-x-2 mt-2 shadow-lg border border-green-glow/20">
+              <Icons.Clock size={16} strokeWidth={3} />
+              <span className="text-sm font-black uppercase tracking-tighter">{timeLeft}</span>
             </div>
-            <p className="text-[10px] text-black/50 mt-4 leading-tight">
-              Funds will be automatically debited from your main balance upon expiry.
+            <p className="text-[9px] text-black font-bold mt-6 leading-tight uppercase tracking-widest opacity-60">
+              Automated repayment upon expiry.
             </p>
           </div>
         </div>
       ) : (
         <div className="space-y-4">
-          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Available Offers</h3>
-          <div className="grid grid-cols-1 gap-3">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Available Loan Offers</h3>
+          <div className="grid grid-cols-1 gap-4">
             {loanOffers.map((offer) => (
               <div 
                 key={offer.id}
                 onClick={() => setSelectedOffer(offer.amount)}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer flex justify-between items-center ${
+                className={`p-6 rounded-2xl border-2 transition-all cursor-pointer flex justify-between items-center floating-button ${
                   selectedOffer === offer.amount 
-                  ? 'border-green-glow bg-green-glow/5' 
-                  : 'border-gray-800 bg-gray-900'
+                  ? 'border-amber-400 bg-amber-400/10 shadow-[0_0_20px_rgba(251,191,36,0.3)]' 
+                  : 'border-white/5 bg-black/40'
                 }`}
               >
-                <div>
-                  <h4 className="font-bold text-white">{offer.label}</h4>
-                  <p className="text-xs text-gray-500">Term: {offer.duration} • 0% Interest</p>
+                <div className="space-y-1">
+                  <h4 className={`font-black uppercase tracking-tighter text-lg ${selectedOffer === offer.amount ? 'text-amber-400' : 'text-white'}`}>{offer.label}</h4>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Term: {offer.duration} • 0% Interest</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-black text-green-glow">₦{offer.amount.toLocaleString()}</p>
+                  <p className={`text-2xl font-black tracking-tighter ${selectedOffer === offer.amount ? 'text-amber-400' : 'text-gray-400'}`}>₦{offer.amount.toLocaleString()}</p>
                 </div>
               </div>
             ))}
@@ -131,33 +131,29 @@ const Loan: React.FC<LoanProps> = ({ user, onApply, onBack }) => {
           <button
             onClick={() => selectedOffer && onApply(selectedOffer)}
             disabled={!selectedOffer}
-            className="w-full py-4 bg-green-glow hover:bg-green-dark disabled:bg-gray-800 text-black font-bold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 active:scale-95"
+            className="w-full py-5 bg-green-glow hover:bg-green-dark disabled:bg-gray-800 disabled:text-gray-500 text-black font-black rounded-2xl shadow-xl shadow-green-glow/20 transition-all flex items-center justify-center space-x-3 active:scale-95 uppercase tracking-[0.2em] mt-4 floating-button"
           >
-            <Icons.CheckCircle size={20} />
-            <span>Apply for Loan</span>
+            <Icons.CheckCircle size={24} strokeWidth={3} />
+            <span>Apply Now</span>
           </button>
         </div>
       )}
 
-      <div className="bg-green-glow/5 p-4 rounded-xl border border-green-glow/10">
-        <h4 className="text-xs font-bold text-green-glow uppercase mb-2">Terms & Conditions</h4>
-        <ul className="space-y-2">
-          <li className="flex items-start space-x-2 text-[11px] text-gray-400">
-            <span className="mt-1 flex-shrink-0 w-1.5 h-1.5 bg-green-glow rounded-full"></span>
-            <span>Loans must be repaid in full within the specified duration.</span>
+      <div className="bg-black/30 backdrop-blur-sm p-6 rounded-2xl border border-white/10 shadow-xl">
+        <h4 className="text-[10px] font-black text-amber-400 uppercase tracking-[0.2em] mb-4">Contract Agreement</h4>
+        <ul className="space-y-3">
+          <li className="flex items-start space-x-3 text-xs text-gray-300 font-bold tracking-tight">
+            <span className="mt-1 flex-shrink-0 w-2 h-2 bg-amber-400 rounded-full shadow-[0_0_5px_rgba(251,191,36,0.5)]"></span>
+            <span>Automated repayment will occur exactly on the expiry date.</span>
           </li>
-          <li className="flex items-start space-x-2 text-[11px] text-gray-400">
-            <span className="mt-1 flex-shrink-0 w-1.5 h-1.5 bg-green-glow rounded-full"></span>
-            <span>Automatic debit will occur on the expiry date from your chix9ja balance.</span>
-          </li>
-          <li className="flex items-start space-x-2 text-[11px] text-gray-400">
-            <span className="mt-1 flex-shrink-0 w-1.5 h-1.5 bg-green-glow rounded-full"></span>
-            <span>Failure to maintain balance for repayment may result in account deactivation.</span>
+          <li className="flex items-start space-x-3 text-xs text-gray-300 font-bold tracking-tight">
+            <span className="mt-1 flex-shrink-0 w-2 h-2 bg-amber-400 rounded-full shadow-[0_0_5px_rgba(251,191,36,0.5)]"></span>
+            <span>Borrower agrees to maintain sufficient balance for repayment.</span>
           </li>
         </ul>
       </div>
 
-      <button onClick={onBack} className="w-full py-2 text-gray-500 text-sm font-medium">
+      <button onClick={onBack} className="w-full py-4 text-gray-400 text-[10px] font-black uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-opacity">
         Back to Dashboard
       </button>
     </div>

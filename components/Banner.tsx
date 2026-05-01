@@ -4,25 +4,25 @@ import { Icons } from './Icons';
 
 const Banner: React.FC = () => {
   return (
-    <div className="mt-4 mb-24 relative rounded-xl overflow-hidden shadow-sm border border-green-glow/20">
+    <div className="mt-4 mb-24 relative rounded-2xl overflow-hidden shadow-2xl border border-gold-glow/20 floating-button">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-black"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-black to-black backdrop-blur-md"></div>
       
-      <div className="relative p-4 flex justify-between items-center">
+      <div className="relative p-6 flex justify-between items-center">
         <div className="flex-1 z-10">
-            <h3 className="text-green-glow font-extrabold text-lg italic mb-1">Financial Freedom!</h3>
-            <p className="text-gray-300 text-xs font-medium mb-3 max-w-[200px] leading-relaxed">
-                Unlock your potential with easy credit. <span className="font-bold text-green-glow">Our Quick Loan Is Ready When You Are</span>
+            <h3 className="text-amber-400 font-black text-xl italic mb-1 uppercase tracking-tighter">Financial Freedom!</h3>
+            <p className="text-gray-300 text-xs font-bold mb-5 max-w-[200px] leading-relaxed uppercase tracking-tight opacity-80">
+                Unlock your potential with easy credit. <span className="text-amber-200">Our Quick Loan Is Ready When You Are</span>
             </p>
-            <button className="bg-green-glow text-black text-xs font-bold py-2 px-6 rounded-full shadow-sm">
+            <button className="bg-amber-400 text-black text-[10px] font-black py-2.5 px-8 rounded-xl shadow-[0_4px_15px_rgba(251,191,36,0.4)] uppercase tracking-widest active:scale-95 transition-all">
                 Get Now!
             </button>
             
              {/* Pagination Dots Simulation */}
-            <div className="flex space-x-1 mt-3">
-                <div className="w-2 h-2 rounded-full bg-green-glow"></div>
-                <div className="w-2 h-2 rounded-full bg-gray-700"></div>
-                <div className="w-2 h-2 rounded-full bg-gray-700"></div>
+            <div className="flex space-x-1.5 mt-4">
+                <div className="w-3 h-1 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"></div>
+                <div className="w-1.5 h-1 rounded-full bg-white/10"></div>
+                <div className="w-1.5 h-1 rounded-full bg-white/10"></div>
             </div>
         </div>
 

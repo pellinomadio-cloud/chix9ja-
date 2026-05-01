@@ -59,7 +59,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                 </div>
                 <button 
                     onClick={onHistoryClick}
-                    className="bg-black hover:bg-gray-900 text-green-glow px-4 py-2 rounded-full text-xs font-bold shadow-lg active:scale-95 transition-all"
+                    className="bg-black hover:bg-gray-900 text-green-glow px-4 py-2 rounded-full text-xs font-black shadow-[0_4px_15px_rgba(0,255,65,0.3)] active:scale-95 transition-all floating-button border-green-glow/20"
                 >
                     Transaction History
                 </button>

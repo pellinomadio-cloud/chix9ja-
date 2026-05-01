@@ -29,12 +29,11 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
   return (
     <div className="space-y-4">
       {/* Top Row - Primary Actions */}
-      <div className="bg-black/40 backdrop-blur-md rounded-2xl p-4 shadow-xl grid grid-cols-4 gap-3 transition-colors duration-200 border border-gold-glow/20">
+      <div className="bg-gray-900 rounded-xl p-4 shadow-sm grid grid-cols-4 gap-2 transition-colors duration-200 border border-gray-800">
         {topRowItems.map((item) => {
           const Icon = item.icon;
           const isGlowing = ['bank', 'rewards', 'subscribe'].includes(item.id);
           const isWhiteGlowing = item.id === 'subscribe';
-          const isGoldGlowing = item.id === 'bank';
           
           return (
             <div 
@@ -42,18 +41,16 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
               onClick={() => onActionClick?.(item.id)}
               className="flex flex-col items-center justify-center space-y-2 cursor-pointer active:opacity-70 group"
             >
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 floating-button ${
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                 isWhiteGlowing 
-                  ? 'bg-white text-black animate-white-glow' 
-                  : isGoldGlowing
-                    ? 'bg-amber-400 text-black animate-gold-glow'
-                    : isGlowing 
-                      ? 'bg-green-glow/20 text-green-glow animate-green-glow' 
-                      : 'bg-white/5 border-white/10 group-hover:bg-white/10 text-white'
+                  ? 'bg-white animate-white-glow shadow-[0_0_15px_rgba(255,255,255,0.6)] text-black' 
+                  : isGlowing 
+                    ? 'bg-green-glow/20 animate-green-glow shadow-[0_0_25px_rgba(0,255,65,0.4)] text-green-glow' 
+                    : 'bg-green-glow/10 group-hover:bg-green-glow/20 text-green-glow'
               }`}>
-                <Icon size={26} fill="currentColor" className={isWhiteGlowing || isGoldGlowing ? 'text-black' : (isGlowing ? 'text-green-glow' : 'text-white')} />
+                <Icon size={24} fill="currentColor" className={isWhiteGlowing ? 'text-black' : 'text-green-glow'} />
               </div>
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest text-center leading-tight">{item.label}</span>
+              <span className="text-xs font-medium text-gray-300 text-center leading-tight">{item.label}</span>
             </div>
           );
         })}
@@ -61,50 +58,43 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
 
       <style>{`
         @keyframes green-glow {
-          0% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.3); transform: scale(1) translateY(-2px); filter: brightness(1); }
-          50% { box-shadow: 0 0 25px rgba(0, 255, 127, 0.8); transform: scale(1.05) translateY(-5px); filter: brightness(1.2); }
-          100% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.3); transform: scale(1) translateY(-2px); filter: brightness(1); }
+          0% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.3); transform: scale(1); filter: brightness(1); }
+          50% { box-shadow: 0 0 35px rgba(0, 255, 65, 0.8); transform: scale(1.08); filter: brightness(1.3); }
+          100% { box-shadow: 0 0 5px rgba(0, 255, 127, 0.3); transform: scale(1); filter: brightness(1); }
         }
         @keyframes white-glow {
-          0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); transform: scale(1) translateY(-2px); filter: brightness(1); }
-          50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.9); transform: scale(1.05) translateY(-5px); filter: brightness(1.4); }
-          100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); transform: scale(1) translateY(-2px); filter: brightness(1); }
-        }
-        @keyframes gold-glow {
-          0% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); transform: scale(1) translateY(-2px); filter: brightness(1); }
-          50% { box-shadow: 0 0 30px rgba(251, 191, 36, 0.9); transform: scale(1.05) translateY(-5px); filter: brightness(1.4); }
-          100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); transform: scale(1) translateY(-2px); filter: brightness(1); }
+          0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); transform: scale(1); filter: brightness(1); }
+          50% { box-shadow: 0 0 35px rgba(255, 255, 255, 0.8); transform: scale(1.08); filter: brightness(1.3); }
+          100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); transform: scale(1); filter: brightness(1); }
         }
         .animate-green-glow {
-          animation: green-glow 2.5s infinite ease-in-out;
+          animation: green-glow 2s infinite ease-in-out;
         }
         .animate-white-glow {
-          animation: white-glow 2.5s infinite ease-in-out;
-        }
-        .animate-gold-glow {
-          animation: gold-glow 2.5s infinite ease-in-out;
+          animation: white-glow 2s infinite ease-in-out;
         }
       `}</style>
 
       {/* Secondary Actions Grid */}
-      <div className="bg-black/30 backdrop-blur-md rounded-2xl p-5 shadow-2xl grid grid-cols-4 gap-x-3 gap-y-8 transition-colors duration-200 border border-gold-glow/10">
+      <div className="bg-gray-900 rounded-xl p-4 shadow-sm grid grid-cols-4 gap-x-2 gap-y-6 transition-colors duration-200 border border-gray-800">
         {bottomGridItems.map((item) => {
           const Icon = item.icon;
           return (
             <div 
               key={item.id} 
               onClick={() => onActionClick?.(item.id)}
-              className="flex flex-col items-center justify-start space-y-3 cursor-pointer active:scale-95 transition-all group"
+              className="flex flex-col items-center justify-start space-y-2 cursor-pointer active:opacity-70 relative"
             >
               {item.badge && (
-                <div className="absolute -top-3 right-0 bg-gold-glow text-black text-[7px] font-black px-1.5 py-0.5 rounded-full z-10 shadow-lg uppercase tracking-tighter">
+                <div className="absolute -top-3 right-1 bg-green-glow text-black text-[8px] font-bold px-1.5 py-0.5 rounded-tr-lg rounded-bl-lg z-10 shadow-sm">
                     {item.badge}
                 </div>
               )}
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center floating-button ${item.color || 'text-white'}`}>
-                <Icon size={24} strokeWidth={2.5} />
+              <div className={`w-8 h-8 flex items-center justify-center ${item.color || 'text-green-glow'}`}>
+                 {/* Using fill for solid look where appropriate, simulating the bold icons in screenshot */}
+                <Icon size={28} strokeWidth={2} />
               </div>
-              <span className="text-[10px] font-bold text-gray-400 text-center leading-none w-full break-words px-0.5 uppercase tracking-tight group-hover:text-amber-200 transition-colors">
+              <span className="text-xs font-medium text-gray-300 text-center leading-tight w-full break-words px-1">
                 {item.label}
               </span>
             </div>

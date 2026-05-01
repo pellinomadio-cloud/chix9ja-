@@ -722,10 +722,8 @@ const App: React.FC = () => {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen relative font-sans text-white transition-colors duration-200">
-        <div className="gold-transparent-bg" />
-        <div className="gold-mesh" />
-        <div className="max-w-md mx-auto bg-black/30 backdrop-blur-md min-h-screen relative shadow-[0_0_50px_rgba(251,191,36,0.1)] transition-colors duration-200 border-x border-gold-glow/20">
+      <div className="min-h-screen bg-black font-sans text-white transition-colors duration-200">
+        <div className="max-w-md mx-auto bg-black min-h-screen relative shadow-2xl transition-colors duration-200">
           <div className="pb-24">
               {activeTab !== 'reward' && activeTab !== 'admin' && activeTab !== 'imminent_payment' && activeTab !== 'task_dashboard' && activeTab !== 'business_hub' && activeTab !== 'finance' && activeTab !== 'notifications' && activeTab !== 'receipt' && activeTab !== 'loan' && activeTab !== 'invest' && (
                   <Header 

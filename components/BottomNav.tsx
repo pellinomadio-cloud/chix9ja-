@@ -18,8 +18,8 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab, user }) 
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-black/60 backdrop-blur-xl border-t border-gold-glow/10 pb-safe-area transition-colors duration-200 z-50">
-      <div className="max-w-md mx-auto flex justify-between items-center px-4 py-3">
+    <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 pb-safe-area transition-colors duration-200 z-50">
+      <div className="max-w-md mx-auto flex justify-between items-center px-2 py-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -29,26 +29,23 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab, user }) 
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex flex-col items-center justify-center space-y-1 transition-all duration-300 ${
-                isActive ? 'text-amber-400 scale-110' : 'text-gray-500 hover:text-gray-300'
+              className={`flex flex-col items-center justify-center w-full py-1 transition-colors ${
+                isActive ? 'text-green-glow' : 'text-gray-500 hover:text-green-glow'
               }`}
             >
-              <div className={`relative ${isActive ? 'drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : ''}`}>
-                {isMeAndHasImage ? (
-                  <div className={`w-7 h-7 rounded-full overflow-hidden border-2 ${isActive ? 'border-amber-400' : 'border-transparent'}`}>
-                    <img src={user!.profileImage} alt="Me" className="w-full h-full object-cover" />
-                  </div>
-                ) : (
-                  <Icon size={24} strokeWidth={isActive ? 3 : 2} />
-                )}
-                {isActive && (
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-400 rounded-full shadow-[0_0_5px_rgba(251,191,36,1)]"></div>
-                )}
-              </div>
+              {isActive && tab.id === 'home' ? (
+                 <div className="bg-green-glow rounded-full p-1 mb-1 shadow-md">
+                    <Icon size={20} className="text-black" />
+                 </div>
+              ) : isMeAndHasImage ? (
+                <div className={`w-7 h-7 rounded-full overflow-hidden mb-1 border-2 ${isActive ? 'border-green-glow' : 'border-transparent'}`}>
+                  <img src={user!.profileImage} alt="Me" className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <Icon size={24} className="mb-1" strokeWidth={isActive ? 2.5 : 2} />
+              )}
               
-              <span className={`text-[9px] font-black uppercase tracking-tighter transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-60'}`}>
-                {tab.label}
-              </span>
+              <span className="text-[10px] font-medium">{tab.label}</span>
             </button>
           );
         })}

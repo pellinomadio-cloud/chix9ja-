@@ -33,8 +33,8 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                         </button>
                     </div>
                     {isSubscribed && (
-                        <div className="flex items-center text-amber-900 bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200 px-2 py-1 rounded-lg text-[10px] font-black w-fit uppercase tracking-wider border border-amber-500 shadow-[0_0_15px_rgba(251,191,36,0.4)] animate-pulse">
-                            <Icons.Star size={12} className="mr-1 fill-amber-900" /> Subscribed Member
+                        <div className="flex items-center text-green-900 bg-white/40 px-2 py-0.5 rounded-full text-[10px] font-bold w-fit uppercase tracking-wider">
+                            <Icons.Star size={12} className="mr-1 fill-green-900" /> Subscribed Member
                         </div>
                     )}
                 </div>
@@ -45,11 +45,6 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
 
             <div className="flex justify-between items-end">
                 <div className="flex flex-col">
-                    {isSubscribed && (
-                        <div className="flex items-center text-amber-900 bg-amber-400 px-1.5 py-0.5 rounded-md text-[8px] font-black w-fit uppercase tracking-tighter border border-amber-600 shadow-sm mb-1 animate-bounce">
-                            <Icons.Star size={8} className="mr-1 fill-amber-900" /> Golden
-                        </div>
-                    )}
                     <div className="flex items-center">
                         <h1 className="text-3xl font-extrabold text-black tracking-tight">
                             {isVisible ? formatCurrency(balance) : '₦ •••••••'}
@@ -59,7 +54,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                 </div>
                 <button 
                     onClick={onHistoryClick}
-                    className="bg-black hover:bg-gray-900 text-green-glow px-4 py-2 rounded-full text-xs font-black shadow-[0_4px_15px_rgba(0,255,65,0.3)] active:scale-95 transition-all floating-button border-green-glow/20"
+                    className="bg-black hover:bg-gray-900 text-green-glow px-4 py-2 rounded-full text-xs font-bold shadow-lg active:scale-95 transition-all"
                 >
                     Transaction History
                 </button>

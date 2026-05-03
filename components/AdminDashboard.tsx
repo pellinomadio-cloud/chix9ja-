@@ -141,7 +141,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
         if (currentDeactivationDate) {
             existingUsers[email.toLowerCase()].deactivationDate = undefined;
         } else {
-            existingUsers[email.toLowerCase()].deactivationDate = Date.now() + 1800000;
+            existingUsers[email.toLowerCase()].deactivationDate = Date.now() + 86400000; // 24 hours
         }
         localStorage.setItem('chix9ja_users', JSON.stringify(existingUsers));
         setUsers(Object.values(existingUsers));
@@ -170,8 +170,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
     }
     if (!user.deactivationDate) return 'Active';
     if (currentTime < user.deactivationDate) {
-        const secondsLeft = Math.ceil((user.deactivationDate - currentTime) / 1000);
-        return `Pending (${secondsLeft}s)`;
+        const diff = user.deactivationDate - currentTime;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        if (hours > 0) return `Pending (${hours}h ${minutes}m)`;
+        if (minutes > 0) return `Pending (${minutes}m ${seconds}s)`;
+        return `Pending (${seconds}s)`;
     }
     return 'Deactivated';
   };
@@ -289,7 +295,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                                             {user.isPMode ? 'Deactivate P Mode' : 'Activate P Mode'}
                                         </button>
                                         <button onClick={() => handleToggleDeactivate(user.email, user.deactivationDate)} className={`py-2 text-[10px] font-bold rounded-lg border transition-colors ${user.deactivationDate ? 'bg-green-900/30 text-green-400 border-green-800' : 'bg-red-900/30 text-red-400 border-red-800'}`}>
-                                            {user.deactivationDate ? 'Restore Active' : '30-Min Lock'}
+                                            {user.deactivationDate ? 'Restore Active' : '24-Hour Lock'}
                                         </button>
                                         <button onClick={() => handleTriggerImminent(user.email)} className={`py-2 text-[10px] font-bold rounded-lg border col-span-2 transition-colors ${isImminent ? 'bg-red-600 text-white border-red-700' : 'bg-orange-900/30 text-orange-400 border-orange-800'}`}>
                                             {isImminent ? 'Cancel 20m Warning' : 'Trigger 20m Warning'}

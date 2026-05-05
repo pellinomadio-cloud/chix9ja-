@@ -6,7 +6,7 @@ import { MenuItem } from '../types';
 const topRowItems: MenuItem[] = [
   { id: 'bank', label: 'Withdraw', icon: Icons.Send },
   { id: 'palmpay', label: 'To chix9ja', icon: Icons.User },
-  { id: 'rewards', label: 'Rewards', icon: Icons.Reward },
+  { id: 'quiz_game', label: 'Quiz Game', icon: Icons.Gamepad2 },
   { id: 'subscribe', label: 'Subscribe', icon: Icons.Subscribe },
 ];
 
@@ -15,7 +15,7 @@ const bottomGridItems: MenuItem[] = [
   { id: 'support', label: 'Support', icon: Icons.Support, color: 'text-blue-500' },
   { id: 'free_withdraw', label: 'Task', icon: Icons.Gift, color: 'text-orange-500 dark:text-orange-400', badge: 'Unlock' },
   { id: 'business', label: 'My Business Hub', icon: Icons.Business, color: 'text-blue-600 dark:text-blue-400' },
-  { id: 'quiz_game', label: 'Quiz Game', icon: Icons.Gamepad2, color: 'text-purple-500 dark:text-purple-400' },
+  { id: 'rewards', label: 'Rewards', icon: Icons.Reward, color: 'text-fuchsia-500' },
   { id: 'upgrade', label: 'VIP', icon: Icons.Upgrade, color: 'text-amber-500 dark:text-amber-400' },
   { id: 'loan', label: 'Loan', icon: Icons.Loan, color: 'text-purple-700 dark:text-purple-300' },
   { id: 'sync', label: 'Sync Account', icon: Icons.Sync, color: 'text-gray-500 dark:text-gray-400' },
@@ -23,9 +23,11 @@ const bottomGridItems: MenuItem[] = [
 
 interface ActionGridProps {
   onActionClick?: (id: string) => void;
+  balance?: number;
 }
 
-const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
+const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick, balance = 0 }) => {
+  const showQuizPointer = balance <= 100000;
   return (
     <div className="space-y-4">
       {/* Top Row - Primary Actions */}
@@ -34,14 +36,22 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
           const Icon = item.icon;
           const isWhiteGlowing = item.id === 'subscribe';
           const isGoldGlowing = item.id === 'bank';
-          const isPinkGlowing = item.id === 'rewards';
+          const isPinkGlowing = item.id === 'quiz_game';
           
           return (
             <div 
               key={item.id} 
               onClick={() => onActionClick?.(item.id)}
-              className="flex flex-col items-center justify-center space-y-2 cursor-pointer active:opacity-70 group"
+              className="flex flex-col items-center justify-center space-y-2 cursor-pointer active:opacity-70 group relative"
             >
+              {item.id === 'quiz_game' && showQuizPointer && (
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center animate-bounce-slow">
+                  <div className="bg-fuchsia-600 text-white text-[10px] font-black px-2 py-1 rounded-full whitespace-nowrap shadow-lg border border-fuchsia-400">
+                    Play & Earn
+                  </div>
+                  <Icons.ChevronDown className="text-fuchsia-500 -mt-1" size={16} fill="currentColor" />
+                </div>
+              )}
               <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                 isWhiteGlowing 
                   ? 'bg-white animate-white-glow shadow-[0_0_15px_rgba(255,255,255,0.6)] text-black' 
@@ -83,6 +93,13 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onActionClick }) => {
         }
         .animate-pink-glow {
           animation: pink-glow 2s infinite ease-in-out;
+        }
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0) translateX(-50%); }
+          50% { transform: translateY(-5px) translateX(-50%); }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 2s infinite ease-in-out;
         }
       `}</style>
 

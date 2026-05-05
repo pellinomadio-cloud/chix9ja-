@@ -857,7 +857,10 @@ const App: React.FC = () => {
                       onAdminClick={() => setActiveTab('admin')} 
                       onHistoryClick={() => setActiveTab('transaction_history')} 
                     />
-                    <ActionGrid onActionClick={handleGridAction} />
+                    <ActionGrid 
+                      onActionClick={handleGridAction} 
+                      balance={user?.balance || 0}
+                    />
                     <Banner />
                 </main>
               )}

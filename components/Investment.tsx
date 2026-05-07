@@ -67,7 +67,7 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
 
   const handleVerify = () => {
     if (investmentIdInput.trim().toUpperCase() !== "CHIX101") {
-      alert("Invalid Investment ID. Please enter the correct ID (CHIX101).");
+      alert("Invalid Investment ID. Please enter the correct ID from management.");
       return;
     }
 
@@ -317,7 +317,7 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
           <div className="space-y-2">
             <input 
               type="text" 
-              placeholder="ENTER INVESTMENT ID (e.g. CHIX101)"
+              placeholder="ENTER INVESTMENT ID"
               value={investmentIdInput}
               onChange={(e) => setInvestmentIdInput(e.target.value.toUpperCase())}
               className="w-full bg-black border border-gray-800 p-4 rounded-xl text-white outline-none focus:border-amber-500 transition-all font-black text-center tracking-widest uppercase"

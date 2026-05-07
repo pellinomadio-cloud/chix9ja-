@@ -256,6 +256,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                                             <div className={`px-2 py-1 rounded text-[10px] font-bold ${user.isVIP ? 'bg-green-glow/20 text-green-glow' : 'bg-gray-800 text-gray-400'}`}>
                                                 {user.isVIP ? 'VIP' : 'REGULAR'}
                                             </div>
+                                            <div className={`px-2 py-1 rounded text-[10px] font-bold ${user.isInvestmentIdUsed ? 'bg-amber-900/30 text-amber-400' : 'bg-gray-800 text-gray-400'}`}>
+                                                {user.isInvestmentIdUsed ? 'ID USED' : 'ID OPEN'}
+                                            </div>
                                         </div>
                                         <div className={`px-2 py-1 rounded text-[10px] font-bold ${isDeactivated ? 'bg-red-900/30 text-red-400' : isImminent ? 'bg-orange-500 text-white animate-pulse' : 'bg-orange-900/30 text-orange-400'}`}>
                                             {status.toUpperCase()}

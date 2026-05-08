@@ -48,9 +48,9 @@ const Investment: React.FC<InvestmentProps> = ({ user, onBack, onUpdateUser }) =
     accountName: ''
   });
 
-  const accountNumber = "1944539322";
-  const bankName = "Access bank";
-  const accountName = "Marvelous Michael O";
+  const accountNumber = "0435119272";
+  const bankName = "PAGA";
+  const accountName = "MARVELOUS MICHAEL O";
 
   const plans: InvestmentPlan[] = [
     { id: 'silver', name: 'Silver Plan', investAmount: 10000, returnAmount: 70000, duration: '24 Hours', color: 'from-gray-400 to-gray-600' },

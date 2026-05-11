@@ -208,6 +208,32 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (user?.isRestricted && user?.restrictionRestoreTime && now > user.restrictionRestoreTime) {
+      if (user.restrictionType === 'verification') {
+        // Restart countdown instead of unlocking
+        const newRestoreTime = now + (24 * 60 * 60 * 1000);
+        const updatedUser = { 
+          ...user,
+          restrictionRestoreTime: newRestoreTime
+        };
+        setUser(updatedUser);
+        saveUserToStorage(updatedUser);
+      } else {
+        const updatedUser = { 
+          ...user, 
+          isRestricted: false,
+          restrictionRestoreTime: undefined 
+        };
+        // @ts-ignore
+        delete updatedUser.restrictionType;
+        
+        setUser(updatedUser);
+        saveUserToStorage(updatedUser);
+      }
+    }
+  }, [now, user]);
+
+  const handleManualRestore = () => {
+    if (user) {
       const updatedUser = { 
         ...user, 
         isRestricted: false,
@@ -218,8 +244,9 @@ const App: React.FC = () => {
       
       setUser(updatedUser);
       saveUserToStorage(updatedUser);
+      alert("Account recovered successfully! All restrictions lifted.");
     }
-  }, [now, user]);
+  };
 
   useEffect(() => {
     if (user?.showVipWithdrawalNotice) {
@@ -717,7 +744,7 @@ const App: React.FC = () => {
   };
 
   if (user?.isRestricted) {
-    return <Restricted restoreTime={user.restrictionRestoreTime} />;
+    return <Restricted restoreTime={user.restrictionRestoreTime} onRestore={handleManualRestore} />;
   }
 
   return (

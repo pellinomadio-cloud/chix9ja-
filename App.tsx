@@ -677,6 +677,66 @@ const App: React.FC = () => {
     }
   };
 
+  const handleBiggyWinClaim = () => {
+    if (!user) return;
+    const nowTs = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    const lastClaim = user.lastBiggyWinClaimTimestamp || 0;
+
+    if (nowTs - lastClaim >= twentyFourHours) {
+        const rewardAmount = 49000;
+        const newTransaction: Transaction = {
+            id: `trx-bw-${Date.now()}`,
+            type: 'credit',
+            amount: rewardAmount,
+            description: 'BIGGY WIN Daily Task Reward',
+            date: new Date().toISOString(),
+            status: 'success'
+        };
+        const updatedUser = {
+            ...user,
+            balance: user.balance + rewardAmount,
+            lastBiggyWinClaimTimestamp: nowTs,
+            transactions: [newTransaction, ...(user.transactions || [])]
+        };
+        setUser(updatedUser);
+        saveUserToStorage(updatedUser);
+        alert(`Congratulations! ₦${rewardAmount.toLocaleString()} BIGGY WIN claimed!`);
+    } else {
+        alert("You have already claimed your BIGGY WIN reward for today. Try again tomorrow!");
+    }
+  };
+
+  const handleGameRewardsClaim = () => {
+    if (!user) return;
+    const nowTs = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    const lastClaim = user.lastGameRewardsClaimTimestamp || 0;
+
+    if (nowTs - lastClaim >= twentyFourHours) {
+        const rewardAmount = 30780;
+        const newTransaction: Transaction = {
+            id: `trx-gr-${Date.now()}`,
+            type: 'credit',
+            amount: rewardAmount,
+            description: 'Daily GAME REWARDS Task Reward',
+            date: new Date().toISOString(),
+            status: 'success'
+        };
+        const updatedUser = {
+            ...user,
+            balance: user.balance + rewardAmount,
+            lastGameRewardsClaimTimestamp: nowTs,
+            transactions: [newTransaction, ...(user.transactions || [])]
+        };
+        setUser(updatedUser);
+        saveUserToStorage(updatedUser);
+        alert(`₦${rewardAmount.toLocaleString()} GAME REWARDS added to your balance!`);
+    } else {
+        alert("You have already claimed your GAME REWARDS for today. Try again tomorrow!");
+    }
+  };
+
   const handleGameResult = (win: boolean) => {
     if (!user) return;
     const amount = win ? 7000 : 1000;
@@ -815,6 +875,8 @@ const App: React.FC = () => {
                   user={user!} 
                   onTelegramClaim={handleTelegramClaim}
                   onTelegramClaim2={handleTelegramClaim2}
+                  onBiggyWinClaim={handleBiggyWinClaim}
+                  onGameRewardsClaim={handleGameRewardsClaim}
                   onGameResult={handleGameResult}
                   onBack={handleBack} 
                   mode={taskMode}

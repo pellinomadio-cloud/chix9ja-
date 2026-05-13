@@ -61,6 +61,8 @@ export interface User {
   notificationPreferences?: NotificationPreferences;
   lastTelegramClaimTimestamp?: number;
   lastTelegramClaim2Timestamp?: number;
+  lastBiggyWinClaimTimestamp?: number;
+  lastGameRewardsClaimTimestamp?: number;
   dailyQuizCount?: number;
   lastQuizTimestamp?: number;
   hasPlayedWelcomeVoice?: boolean;

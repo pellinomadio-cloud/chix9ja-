@@ -8,12 +8,23 @@ interface TaskPageProps {
   user: User;
   onTelegramClaim: () => void;
   onTelegramClaim2: () => void;
+  onBiggyWinClaim: () => void;
+  onGameRewardsClaim: () => void;
   onGameResult: (win: boolean) => void;
   onBack: () => void;
   mode?: 'quiz' | 'telegram' | 'all';
 }
 
-const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramClaim2, onGameResult, onBack, mode = 'all' }) => {
+const TaskPage: React.FC<TaskPageProps> = ({ 
+  user, 
+  onTelegramClaim, 
+  onTelegramClaim2, 
+  onBiggyWinClaim,
+  onGameRewardsClaim,
+  onGameResult, 
+  onBack, 
+  mode = 'all' 
+}) => {
   const [gameStep, setGameStep] = useState<'intro' | 'playing' | 'result'>('intro');
   const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -67,12 +78,26 @@ const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramCl
     return nowTs - lastClaim >= twentyFourHours;
   };
 
+  const canClaimBiggyWin = () => {
+    const nowTs = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    const lastClaim = user.lastBiggyWinClaimTimestamp || 0;
+    return nowTs - lastClaim >= twentyFourHours;
+  };
+
+  const canClaimGameRewards = () => {
+    const nowTs = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    const lastClaim = user.lastGameRewardsClaimTimestamp || 0;
+    return nowTs - lastClaim >= twentyFourHours;
+  };
+
   return (
     <div className="px-4 py-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
       
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center justify-center p-3 bg-green-glow/10 rounded-full text-green-glow mb-2">
+        <div className="inline-flex items-center justify-center p-3 bg-fuchsia-500/10 rounded-full text-fuchsia-500 mb-2">
             {mode === 'quiz' ? <Icons.Gamepad2 size={32} /> : <Icons.Star size={32} />}
         </div>
         <h2 className="text-2xl font-bold text-white">
@@ -151,19 +176,76 @@ const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramCl
               </button>
           </div>
         </div>
+
+        {/* Biggy Win Task */}
+        <div className="bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-800 space-y-4">
+          <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-fuchsia-500/20 rounded-full flex items-center justify-center text-fuchsia-400">
+                  <Icons.Zap size={24} />
+              </div>
+              <div className="flex-1">
+                  <h3 className="font-bold text-white uppercase tracking-tight">Claim <span className="text-fuchsia-500">BIGGY WIN</span></h3>
+                  <p className="text-xs text-gray-400">Claim your special daily <span className="text-fuchsia-400 font-bold">₦49,000</span> reward!</p>
+              </div>
+              {canClaimBiggyWin() ? (
+                  <span className="text-[10px] font-bold bg-green-500/20 text-green-400 px-2 py-1 rounded uppercase animate-pulse">Hot</span>
+              ) : (
+                  <span className="text-[10px] font-bold bg-gray-500/20 text-gray-400 px-2 py-1 rounded uppercase">Used</span>
+              )}
+          </div>
+
+          <div className="space-y-3 pt-2">
+              <button 
+                  onClick={onBiggyWinClaim}
+                  disabled={!canClaimBiggyWin()}
+                  className={`w-full py-4 rounded-2xl font-black shadow-lg transition-all flex items-center justify-center space-x-2 active:scale-95 uppercase tracking-widest text-sm ${canClaimBiggyWin() ? 'bg-gradient-to-r from-fuchsia-600 to-pink-500 text-white shadow-[0_10px_20px_rgba(217,70,239,0.3)]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
+              >
+                  <Icons.Zap size={18} fill="currentColor" />
+                  <span>{canClaimBiggyWin() ? 'Claim BIGGY WIN ₦49,000' : 'Claimed Successfully'}</span>
+              </button>
+          </div>
+        </div>
+
+        {/* Game Rewards Task */}
+        <div className="bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-800 space-y-4">
+          <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400">
+                  <Icons.Star size={24} />
+              </div>
+              <div className="flex-1">
+                  <h3 className="font-bold text-white uppercase tracking-tight">GAME <span className="text-blue-400">REWARDS</span></h3>
+                  <p className="text-xs text-gray-400">Claim your performance prize of <span className="text-blue-400 font-bold">₦30,780</span>!</p>
+              </div>
+              {canClaimGameRewards() ? (
+                  <span className="text-[10px] font-bold bg-green-500/20 text-green-400 px-2 py-1 rounded uppercase">New</span>
+              ) : (
+                  <span className="text-[10px] font-bold bg-gray-500/20 text-gray-400 px-2 py-1 rounded uppercase">Done</span>
+              )}
+          </div>
+
+          <div className="space-y-3 pt-2">
+              <button 
+                  onClick={onGameRewardsClaim}
+                  disabled={!canClaimGameRewards()}
+                  className={`w-full py-4 rounded-2xl font-black shadow-lg transition-all flex items-center justify-center space-x-2 active:scale-95 uppercase tracking-widest text-sm ${canClaimGameRewards() ? 'bg-gradient-to-r from-blue-600 to-indigo-500 text-white shadow-[0_10px_20px_rgba(37,99,235,0.3)]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
+              >
+                  <Icons.Star size={18} fill="currentColor" />
+                  <span>{canClaimGameRewards() ? 'Claim REWARDS ₦30,780' : 'Already Claimed'}</span>
+              </button>
+          </div>
+        </div>
       </div>
       )}
 
-      {/* Quiz Game Section */}
       {(mode === 'quiz' || mode === 'all') && (
-      <div className="bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-800 space-y-4">
+      <div className="bg-gray-900 rounded-2xl p-5 shadow-sm border border-fuchsia-500/20 space-y-4">
         <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">
+            <div className="w-12 h-12 bg-gradient-to-br from-fuchsia-600/20 to-blue-600/20 rounded-xl flex items-center justify-center text-fuchsia-500">
                 <Icons.Gamepad2 size={24} />
             </div>
             <div className="flex-1">
-                <h3 className="font-bold text-white">Daily Quiz Game</h3>
-                <p className="text-xs text-gray-400">Win ₦7,000 if correct, lose ₦1,000 if wrong.</p>
+                <h3 className="font-bold text-white uppercase tracking-tight">Daily <span className="text-blue-400">Quiz</span> Game</h3>
+                <p className="text-xs text-gray-400">Win <span className="text-fuchsia-400 font-bold">₦7,000</span> if correct, lose ₦1,000 if wrong.</p>
             </div>
         </div>
 
@@ -178,22 +260,22 @@ const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramCl
                     <span>Daily Progress</span>
                     <span>{getEffectiveQuizCount()}/20</span>
                 </div>
-                <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
                     <div 
-                        className="bg-purple-500 h-full transition-all duration-500" 
+                        className="bg-gradient-to-r from-fuchsia-600 to-blue-600 h-full transition-all duration-500 shadow-[0_0_10px_rgba(217,70,239,0.5)]" 
                         style={{ width: `${Math.min((getEffectiveQuizCount() / 20) * 100, 100)}%` }}
                     />
                 </div>
                 <button 
                     onClick={startGame}
                     disabled={!canPlayQuiz()}
-                    className={`w-full py-3.5 font-bold rounded-xl shadow-lg transition-all active:scale-95 ${
+                    className={`w-full py-4 font-black rounded-2xl shadow-lg transition-all active:scale-95 uppercase tracking-widest text-sm ${
                         canPlayQuiz() 
-                            ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                            ? 'bg-gradient-to-r from-fuchsia-600 to-blue-600 text-white shadow-[0_10px_20px_rgba(217,70,239,0.2)]' 
                             : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                     }`}
                 >
-                    {canPlayQuiz() ? 'Start Quiz' : 'Limit Reached'}
+                    {canPlayQuiz() ? 'Start Quiz Challenge' : 'Daily Limit Reached'}
                 </button>
             </div>
         )}
@@ -212,10 +294,10 @@ const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramCl
                             className={`w-full py-4 px-6 text-left rounded-xl font-medium transition-all transform active:scale-[0.98] border-2 ${
                                 selectedOption === option 
                                     ? (option === currentQuestion.answer ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-red-500/20 border-red-500 text-red-400')
-                                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-purple-500 hover:bg-gray-700'
+                                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-fuchsia-500 hover:bg-gray-700'
                             }`}
                         >
-                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 text-xs font-bold mr-3">
+                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 text-xs font-bold mr-3 border border-white/5">
                                 {String.fromCharCode(65 + idx)}
                             </span>
                             {option}
@@ -240,9 +322,9 @@ const TaskPage: React.FC<TaskPageProps> = ({ user, onTelegramClaim, onTelegramCl
                 <button 
                     onClick={startGame}
                     disabled={!canPlayQuiz()}
-                    className={`w-full py-3.5 font-bold rounded-xl shadow-lg transition-all active:scale-95 ${
+                    className={`w-full py-4 font-black rounded-2xl shadow-lg transition-all active:scale-95 uppercase tracking-widest text-sm ${
                         canPlayQuiz() 
-                            ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                            ? 'bg-gradient-to-r from-fuchsia-600 to-blue-600 text-white shadow-[0_10px_20px_rgba(217,70,239,0.2)]' 
                             : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                     }`}
                 >

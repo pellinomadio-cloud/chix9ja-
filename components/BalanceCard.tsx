@@ -59,7 +59,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
                 </div>
                 <button 
                     onClick={onHistoryClick}
-                    className="bg-black hover:bg-gray-900 text-green-glow px-4 py-2 rounded-full text-xs font-bold shadow-lg active:scale-95 transition-all"
+                    className="bg-black hover:bg-gray-900 text-fuchsia-400 px-4 py-2 rounded-full text-xs font-bold shadow-lg active:scale-95 transition-all"
                 >
                     Transaction History
                 </button>
@@ -67,7 +67,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance, isSubscribed = false
 
             <div className="mt-4 pt-2 border-t border-black/10 flex justify-between items-center">
                 <p className="text-xs text-black/80 font-medium flex items-center">
-                    <span className="bg-black text-green-glow text-[10px] px-1 rounded mr-2 font-bold">10</span>
+                    <span className="bg-black text-fuchsia-400 text-[10px] px-1 rounded mr-2 font-bold">10</span>
                     Higher return? Increase deposit with <span className="text-black ml-1 font-bold">20% p.a.</span>
                 </p>
                 <button 

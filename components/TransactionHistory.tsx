@@ -28,16 +28,16 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ user, onTransac
             
             {/* Subscription Status - Pinned at Top */}
             {user.isSubscribed && (
-                 <div className="p-4 bg-green-glow/10 flex items-center justify-between border-b border-green-glow/20">
+                 <div className="p-4 bg-fuchsia-500/10 flex items-center justify-between border-b border-fuchsia-500/20">
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-full bg-green-glow text-black flex items-center justify-center shadow-md shadow-green-glow/20">
+                        <div className="w-10 h-10 rounded-full bg-fuchsia-500 text-white flex items-center justify-center shadow-md shadow-fuchsia-500/20">
                             <Icons.CheckCircle size={20} />
                         </div>
                         <div>
-                            <h4 className="text-sm font-bold text-green-glow">
+                            <h4 className="text-sm font-bold text-fuchsia-400">
                                 Subscription Active
                             </h4>
-                            <p className="text-xs text-green-glow/70">
+                            <p className="text-xs text-fuchsia-400/70">
                                 {user.subscriptionPlan || 'Premium Plan'}
                             </p>
                         </div>
@@ -100,7 +100,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ user, onTransac
                                 </p>
                                 <p className="text-[10px] text-gray-500">{formatDate(trx.date)}</p>
                             </div>
-                            <Icons.ChevronRight size={16} className="text-gray-700 group-hover:text-green-glow transition-colors" />
+                            <Icons.ChevronRight size={16} className="text-gray-700 group-hover:text-fuchsia-400 transition-colors" />
                         </div>
                     </div>
                 ))
@@ -116,11 +116,11 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ user, onTransac
       </div>
       
       {!user.isSubscribed && transactions.length === 0 && (
-        <div className="bg-green-glow/5 border border-green-glow/10 p-4 rounded-xl flex items-start space-x-3">
-            <Icons.FileText className="text-green-glow mt-0.5" size={20} />
+        <div className="bg-fuchsia-500/5 border border-fuchsia-500/10 p-4 rounded-xl flex items-start space-x-3">
+            <Icons.FileText className="text-fuchsia-500 mt-0.5" size={20} />
             <div className="flex-1">
-                <p className="text-sm font-bold text-green-glow">Start Transacting</p>
-                <p className="text-xs text-green-glow/70 mt-1">
+                <p className="text-sm font-bold text-fuchsia-400">Start Transacting</p>
+                <p className="text-xs text-fuchsia-400/70 mt-1">
                     Subscribe to a plan to unlock full features and see your history here.
                 </p>
             </div>

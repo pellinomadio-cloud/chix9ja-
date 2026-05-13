@@ -39,119 +39,147 @@ const Register: React.FC<RegisterProps> = ({ onRegister, onSwitchToLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 transition-colors duration-200">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-screen bg-black relative flex flex-col items-center justify-center p-6 transition-colors duration-200 overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 -left-10 w-72 h-72 bg-fuchsia-600/20 rounded-full blur-[100px] animate-pulse"></div>
+      <div className="absolute bottom-0 -right-10 w-80 h-80 bg-pink-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(217,70,239,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+
+      <div className="w-full max-w-md space-y-8 relative z-10">
         <div className="text-center">
-           <div className="mx-auto h-16 w-16 bg-green-glow rounded-full flex items-center justify-center mb-4 shadow-lg">
-            <span className="text-black font-bold text-2xl italic">Cx</span>
+           <div className="mx-auto h-20 w-20 bg-gradient-to-tr from-fuchsia-600 to-pink-400 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(217,70,239,0.3)] rotate-3">
+            <span className="text-white font-black text-3xl italic tracking-tighter">Cx</span>
           </div>
-          <h2 className="text-3xl font-extrabold text-white">Create Account</h2>
-          <p className="mt-2 text-sm text-gray-400">
-            Join chix9ja and get <span className="text-green-glow font-bold">₦10,000</span> bonus instantly!
+          <h2 className="text-4xl font-black text-white tracking-tighter uppercase">Create <span className="text-fuchsia-500">Account</span></h2>
+          <p className="mt-3 text-sm text-gray-400 font-medium">
+            Join chix9ja and get <span className="text-fuchsia-400 font-bold">₦10,000</span> bonus instantly!
           </p>
         </div>
 
-        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-5 bg-gray-900/40 p-8 rounded-[2rem] border border-white/5 backdrop-blur-xl shadow-2xl" onSubmit={handleSubmit}>
             
             {error && (
-              <div className="bg-red-900/20 text-red-400 text-sm p-3 rounded-lg text-center border border-red-800">
+              <div className="bg-red-900/20 text-red-400 text-xs font-bold p-4 rounded-xl text-center border border-red-800/50 animate-shake">
                 {error}
               </div>
             )}
 
-            <div>
-              <label htmlFor="name" className="sr-only">Full Name</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Icons.User className="h-5 w-5 text-gray-500" />
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="name" className="text-[10px] font-black text-gray-500 uppercase ml-1 tracking-widest">Full Name</label>
+                <div className="relative mt-1">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Icons.User className="h-5 w-5 text-fuchsia-500/50" />
+                  </div>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    className="appearance-none rounded-2xl relative block w-full pl-12 px-4 py-4 border border-gray-800 placeholder-gray-600 text-white bg-black/50 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-all font-medium"
+                    placeholder="Enter your full name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  className="appearance-none rounded-lg relative block w-full pl-10 px-3 py-3 border border-gray-800 placeholder-gray-500 text-white bg-gray-900 focus:outline-none focus:ring-green-glow focus:border-green-glow sm:text-sm transition-all"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="text-[10px] font-black text-gray-500 uppercase ml-1 tracking-widest">Email Address</label>
+                <div className="relative mt-1">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Icons.Mail className="h-5 w-5 text-fuchsia-500/50" />
+                  </div>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    className="appearance-none rounded-2xl relative block w-full pl-12 px-4 py-4 border border-gray-800 placeholder-gray-600 text-white bg-black/50 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-all font-medium"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="password" className="text-[10px] font-black text-gray-500 uppercase ml-1 tracking-widest">4-Digit PIN</label>
+                <div className="relative mt-1">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Icons.Lock className="h-5 w-5 text-fuchsia-500/50" />
+                  </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={4}
+                    required
+                    className="appearance-none rounded-2xl relative block w-full pl-12 px-4 py-4 border border-gray-800 placeholder-gray-600 text-white bg-black/50 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-all font-black tracking-[1em] text-center"
+                    placeholder="••••"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
               </div>
             </div>
 
-            <div>
-              <label htmlFor="email" className="sr-only">Email address</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Icons.Mail className="h-5 w-5 text-gray-500" />
-                </div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  className="appearance-none rounded-lg relative block w-full pl-10 px-3 py-3 border border-gray-800 placeholder-gray-500 text-white bg-gray-900 focus:outline-none focus:ring-green-glow focus:border-green-glow sm:text-sm transition-all"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="sr-only">4-digit PIN</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Icons.Lock className="h-5 w-5 text-gray-500" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={4}
-                  required
-                  className="appearance-none rounded-lg relative block w-full pl-10 px-3 py-3 border border-gray-800 placeholder-gray-500 text-white bg-gray-900 focus:outline-none focus:ring-green-glow focus:border-green-glow sm:text-sm transition-all tracking-widest"
-                  placeholder="Create 4-digit PIN"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center">
+            <div className="flex items-center pt-2">
                 <input
                     id="terms"
                     name="terms"
                     type="checkbox"
                     required
-                    className="h-4 w-4 text-green-glow focus:ring-green-glow border-gray-800 rounded bg-gray-900"
+                    className="h-5 w-5 text-fuchsia-500 focus:ring-fuchsia-500 border-gray-800 rounded-lg bg-black cursor-pointer"
                 />
-                <label htmlFor="terms" className="ml-2 block text-sm text-gray-400">
-                    I agree to the <a href="#" className="text-green-glow hover:text-green-light font-bold">Terms</a> and <a href="#" className="text-green-glow hover:text-green-light font-bold">Privacy Policy</a>
+                <label htmlFor="terms" className="ml-3 block text-xs text-gray-400 font-medium">
+                    I agree to the <a href="#" className="text-fuchsia-400 hover:text-fuchsia-300 font-bold underline underline-offset-4 pointer-events-auto">Terms</a> and <a href="#" className="text-fuchsia-400 hover:text-fuchsia-300 font-bold underline underline-offset-4 pointer-events-auto">Privacy Policy</a>
                 </label>
             </div>
 
-          <div>
+          <div className="pt-4">
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-full text-black bg-green-glow hover:bg-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-glow shadow-lg transition-all disabled:opacity-70"
+              className="group relative w-full flex justify-center py-5 px-4 border border-transparent text-sm font-black rounded-2xl text-white bg-gradient-to-r from-fuchsia-600 to-pink-500 hover:from-fuchsia-500 hover:to-pink-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 shadow-[0_10px_20px_rgba(217,70,239,0.3)] transition-all disabled:opacity-70 uppercase tracking-widest active:scale-[0.98]"
             >
-              {isLoading ? 'Creating Account...' : 'Get Started'}
+              {isLoading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Processing...</span>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <span>Get Started</span>
+                  <Icons.ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </div>
+              )}
             </button>
           </div>
         </form>
 
-        <div className="text-center mt-4">
-            <p className="text-sm text-gray-400">
-                Already have an account?{' '}
-                <button onClick={onSwitchToLogin} className="font-bold text-green-glow hover:text-green-light">
+        <div className="text-center mt-6">
+            <p className="text-sm text-gray-500 font-bold uppercase tracking-widest">
+                Existing user?{' '}
+                <button onClick={onSwitchToLogin} className="text-fuchsia-500 hover:text-fuchsia-400 transition-colors ml-1">
                     Login here
                 </button>
             </p>
         </div>
       </div>
+      
+      <style>{`
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
+        }
+        .animate-shake {
+          animation: shake 0.4s ease-in-out;
+        }
+      `}</style>
     </div>
   );
 };

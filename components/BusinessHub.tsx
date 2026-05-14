@@ -6,10 +6,11 @@ import { User, Transaction } from '../types';
 interface BusinessHubProps {
   user: User;
   onVipWithdraw: (amount: number) => void;
+  onLinkAccountClick: () => void;
   onBack: () => void;
 }
 
-const BusinessHub: React.FC<BusinessHubProps> = ({ user, onVipWithdraw, onBack }) => {
+const BusinessHub: React.FC<BusinessHubProps> = ({ user, onVipWithdraw, onLinkAccountClick, onBack }) => {
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [error, setError] = useState('');
 
@@ -110,6 +111,33 @@ const BusinessHub: React.FC<BusinessHubProps> = ({ user, onVipWithdraw, onBack }
             >
               <Icons.Banknote size={20} />
               <span>Withdraw to Main Balance</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Link Account Section - Subscribed Users Only */}
+      {user.isSubscribed && (
+        <div className="bg-gray-900 overflow-hidden rounded-3xl border border-blue-500/20 shadow-xl group">
+          <div className="p-6 space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-400">
+                <Icons.Link size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-white text-sm">Withdrawal Account</h3>
+                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Database Integration</p>
+              </div>
+            </div>
+            
+            <p className="text-xs text-gray-400 leading-relaxed font-medium"> link your external bank account to your profile for faster and more secure withdrawals. </p>
+
+            <button 
+              onClick={onLinkAccountClick}
+              className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black rounded-2xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center space-x-2 uppercase tracking-widest text-xs"
+            >
+              <Icons.PlusCircle size={16} />
+              <span>Link Withdraw Account</span>
             </button>
           </div>
         </div>

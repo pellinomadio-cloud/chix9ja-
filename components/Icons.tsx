@@ -56,7 +56,10 @@ import {
   TrendingUp,
   Tag,
   Trophy,
-  PartyPopper
+  PartyPopper,
+  Link,
+  PlusCircle,
+  Hash
 } from 'lucide-react';
 
 // Exporting icons for easy import elsewhere
@@ -122,5 +125,8 @@ export const Icons = {
   Invest: TrendingUp,
   Tag: Tag,
   Trophy: Trophy,
-  Celebration: PartyPopper
+  Celebration: PartyPopper,
+  Link,
+  PlusCircle,
+  Hash
 };

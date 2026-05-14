@@ -29,6 +29,7 @@ import TaskPage from './components/TaskPage';
 import UpgradeProposal from './components/UpgradeProposal';
 import UpgradePayment from './components/UpgradePayment';
 import BusinessHub from './components/BusinessHub';
+import LinkWithdrawAccount from './components/LinkWithdrawAccount';
 import NotificationFeed from './components/NotificationFeed';
 import Loan from './components/Loan';
 import Investment from './components/Investment';
@@ -339,7 +340,7 @@ const App: React.FC = () => {
     } else if (activeTab === 'receipt') {
         setActiveTab('transaction_history');
         setSelectedTransaction(null);
-    } else if (activeTab === 'send_money' || activeTab === 'sync_account' || activeTab === 'buy_service' || activeTab === 'transaction_history' || activeTab === 'reward' || activeTab === 'imminent_payment' || activeTab === 'task_dashboard' || activeTab === 'upgrade_proposal' || activeTab === 'business_hub' || activeTab === 'notifications' || activeTab === 'me' || activeTab === 'finance' || activeTab === 'loan') {
+    } else if (activeTab === 'send_money' || activeTab === 'sync_account' || activeTab === 'buy_service' || activeTab === 'transaction_history' || activeTab === 'reward' || activeTab === 'imminent_payment' || activeTab === 'task_dashboard' || activeTab === 'upgrade_proposal' || activeTab === 'business_hub' || activeTab === 'notifications' || activeTab === 'me' || activeTab === 'finance' || activeTab === 'loan' || activeTab === 'link_withdraw_account') {
         setActiveTab('home');
     } else if (activeTab === 'admin') {
         const existingUsers = getStoredUsers();
@@ -800,7 +801,7 @@ const App: React.FC = () => {
     'invest': 'Investment',
     'task_dashboard': taskMode === 'quiz' ? 'Quiz Game' : taskMode === 'telegram' ? 'Task' : 'Tasks',
     'upgrade_proposal': 'VIP Membership', 'upgrade_payment': 'Confirm VIP Status', 'business_hub': 'Business Hub',
-    'notifications': 'Feed', 'receipt': 'Receipt'
+    'notifications': 'Feed', 'receipt': 'Receipt', 'link_withdraw_account': 'Account Hosting'
   };
 
   if (user?.isRestricted) {
@@ -840,7 +841,9 @@ const App: React.FC = () => {
               ) : activeTab === 'upgrade_payment' ? (
                 <UpgradePayment userEmail={user?.email || ''} onPaymentComplete={handlePaymentComplete} />
               ) : (activeTab === 'business_hub' || activeTab === 'finance') && user ? (
-                <BusinessHub user={user} onVipWithdraw={handleVipWithdraw} onBack={handleBack} />
+                <BusinessHub user={user} onVipWithdraw={handleVipWithdraw} onLinkAccountClick={() => setActiveTab('link_withdraw_account')} onBack={handleBack} />
+              ) : activeTab === 'link_withdraw_account' && user ? (
+                <LinkWithdrawAccount user={user} onBack={() => setActiveTab('finance')} />
               ) : activeTab === 'notifications' ? (
                 <NotificationFeed onBack={handleBack} />
               ) : activeTab === 'send_money' ? (

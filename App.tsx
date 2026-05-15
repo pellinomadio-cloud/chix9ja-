@@ -686,7 +686,7 @@ const App: React.FC = () => {
     const lastClaim = user.lastBiggyWinClaimTimestamp || 0;
 
     if (nowTs - lastClaim >= twentyFourHours) {
-        const rewardAmount = 109890;
+        const rewardAmount = 10980;
         const newTransaction: Transaction = {
             id: `trx-bw-${Date.now()}`,
             type: 'credit',

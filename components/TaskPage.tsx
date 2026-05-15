@@ -185,7 +185,7 @@ const TaskPage: React.FC<TaskPageProps> = ({
               </div>
               <div className="flex-1">
                   <h3 className="font-bold text-white uppercase tracking-tight">Claim <span className="text-fuchsia-500">BIGGY WIN</span></h3>
-                  <p className="text-xs text-gray-400">Claim your special daily <span className="text-fuchsia-400 font-bold">₦109,890</span> reward!</p>
+                  <p className="text-xs text-gray-400">Claim your special daily <span className="text-fuchsia-400 font-bold">₦10,980</span> reward!</p>
               </div>
               {canClaimBiggyWin() ? (
                   <span className="text-[10px] font-bold bg-green-500/20 text-green-400 px-2 py-1 rounded uppercase animate-pulse">Hot</span>
@@ -201,7 +201,7 @@ const TaskPage: React.FC<TaskPageProps> = ({
                   className={`w-full py-4 rounded-2xl font-black shadow-lg transition-all flex items-center justify-center space-x-2 active:scale-95 uppercase tracking-widest text-sm ${canClaimBiggyWin() ? 'bg-gradient-to-r from-fuchsia-600 to-pink-500 text-white shadow-[0_10px_20px_rgba(217,70,239,0.3)]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
               >
                 <Icons.Zap size={18} fill="currentColor" />
-                <span>{canClaimBiggyWin() ? 'Claim BIGGY WIN ₦109,890' : 'Claimed Successfully'}</span>
+                <span>{canClaimBiggyWin() ? 'Claim BIGGY WIN ₦10,980' : 'Claimed Successfully'}</span>
             </button>
           </div>
         </div>

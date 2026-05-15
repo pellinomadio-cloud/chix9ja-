@@ -10,6 +10,7 @@ interface HeaderProps {
   onBack?: () => void;
   pageTitle?: string;
   onNotificationClick?: () => void;
+  onInfoClick?: () => void;
   hasUnread?: boolean;
   isSubscribed?: boolean;
   isVIP?: boolean;
@@ -23,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({
   onBack,
   pageTitle,
   onNotificationClick,
+  onInfoClick,
   hasUnread = false,
   isSubscribed = false,
   isVIP = false
@@ -77,8 +79,11 @@ const Header: React.FC<HeaderProps> = ({
       </div>
       
       <div className="flex items-center space-x-3 text-gray-300">
-        <button className="p-1 hover:bg-gray-800 rounded-full transition-colors">
-            <Icons.Support size={24} />
+        <button 
+          onClick={onInfoClick}
+          className="p-1 hover:bg-gray-800 rounded-full transition-colors"
+        >
+            <Icons.Info size={24} />
         </button>
         <button 
           onClick={onNotificationClick}

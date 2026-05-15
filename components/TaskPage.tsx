@@ -185,7 +185,7 @@ const TaskPage: React.FC<TaskPageProps> = ({
               </div>
               <div className="flex-1">
                   <h3 className="font-bold text-white uppercase tracking-tight">Claim <span className="text-fuchsia-500">BIGGY WIN</span></h3>
-                  <p className="text-xs text-gray-400">Claim your special daily <span className="text-fuchsia-400 font-bold">₦49,000</span> reward!</p>
+                  <p className="text-xs text-gray-400">Claim your special daily <span className="text-fuchsia-400 font-bold">₦109,890</span> reward!</p>
               </div>
               {canClaimBiggyWin() ? (
                   <span className="text-[10px] font-bold bg-green-500/20 text-green-400 px-2 py-1 rounded uppercase animate-pulse">Hot</span>
@@ -200,9 +200,9 @@ const TaskPage: React.FC<TaskPageProps> = ({
                   disabled={!canClaimBiggyWin()}
                   className={`w-full py-4 rounded-2xl font-black shadow-lg transition-all flex items-center justify-center space-x-2 active:scale-95 uppercase tracking-widest text-sm ${canClaimBiggyWin() ? 'bg-gradient-to-r from-fuchsia-600 to-pink-500 text-white shadow-[0_10px_20px_rgba(217,70,239,0.3)]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
               >
-                  <Icons.Zap size={18} fill="currentColor" />
-                  <span>{canClaimBiggyWin() ? 'Claim BIGGY WIN ₦49,000' : 'Claimed Successfully'}</span>
-              </button>
+                <Icons.Zap size={18} fill="currentColor" />
+                <span>{canClaimBiggyWin() ? 'Claim BIGGY WIN ₦109,890' : 'Claimed Successfully'}</span>
+            </button>
           </div>
         </div>
 
@@ -214,7 +214,7 @@ const TaskPage: React.FC<TaskPageProps> = ({
               </div>
               <div className="flex-1">
                   <h3 className="font-bold text-white uppercase tracking-tight">GAME <span className="text-blue-400">REWARDS</span></h3>
-                  <p className="text-xs text-gray-400">Claim your performance prize of <span className="text-blue-400 font-bold">₦30,780</span>!</p>
+                  <p className="text-xs text-gray-400">Claim your performance prize of <span className="text-blue-400 font-bold">₦5,500</span>!</p>
               </div>
               {canClaimGameRewards() ? (
                   <span className="text-[10px] font-bold bg-green-500/20 text-green-400 px-2 py-1 rounded uppercase">New</span>
@@ -229,9 +229,9 @@ const TaskPage: React.FC<TaskPageProps> = ({
                   disabled={!canClaimGameRewards()}
                   className={`w-full py-4 rounded-2xl font-black shadow-lg transition-all flex items-center justify-center space-x-2 active:scale-95 uppercase tracking-widest text-sm ${canClaimGameRewards() ? 'bg-gradient-to-r from-blue-600 to-indigo-500 text-white shadow-[0_10px_20px_rgba(37,99,235,0.3)]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
               >
-                  <Icons.Star size={18} fill="currentColor" />
-                  <span>{canClaimGameRewards() ? 'Claim REWARDS ₦30,780' : 'Already Claimed'}</span>
-              </button>
+                <Icons.Star size={18} fill="currentColor" />
+                <span>{canClaimGameRewards() ? 'Claim REWARDS ₦5,500' : 'Already Claimed'}</span>
+            </button>
           </div>
         </div>
       </div>

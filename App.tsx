@@ -30,6 +30,7 @@ import UpgradeProposal from './components/UpgradeProposal';
 import UpgradePayment from './components/UpgradePayment';
 import BusinessHub from './components/BusinessHub';
 import LinkWithdrawAccount from './components/LinkWithdrawAccount';
+import HowItWorks from './components/HowItWorks';
 import NotificationFeed from './components/NotificationFeed';
 import Loan from './components/Loan';
 import Investment from './components/Investment';
@@ -340,7 +341,7 @@ const App: React.FC = () => {
     } else if (activeTab === 'receipt') {
         setActiveTab('transaction_history');
         setSelectedTransaction(null);
-    } else if (activeTab === 'send_money' || activeTab === 'sync_account' || activeTab === 'buy_service' || activeTab === 'transaction_history' || activeTab === 'reward' || activeTab === 'imminent_payment' || activeTab === 'task_dashboard' || activeTab === 'upgrade_proposal' || activeTab === 'business_hub' || activeTab === 'notifications' || activeTab === 'me' || activeTab === 'finance' || activeTab === 'loan' || activeTab === 'link_withdraw_account') {
+    } else if (activeTab === 'send_money' || activeTab === 'sync_account' || activeTab === 'buy_service' || activeTab === 'transaction_history' || activeTab === 'reward' || activeTab === 'imminent_payment' || activeTab === 'task_dashboard' || activeTab === 'upgrade_proposal' || activeTab === 'business_hub' || activeTab === 'notifications' || activeTab === 'me' || activeTab === 'finance' || activeTab === 'loan' || activeTab === 'link_withdraw_account' || activeTab === 'how_it_works') {
         setActiveTab('home');
     } else if (activeTab === 'admin') {
         const existingUsers = getStoredUsers();
@@ -685,7 +686,7 @@ const App: React.FC = () => {
     const lastClaim = user.lastBiggyWinClaimTimestamp || 0;
 
     if (nowTs - lastClaim >= twentyFourHours) {
-        const rewardAmount = 49000;
+        const rewardAmount = 109890;
         const newTransaction: Transaction = {
             id: `trx-bw-${Date.now()}`,
             type: 'credit',
@@ -715,7 +716,7 @@ const App: React.FC = () => {
     const lastClaim = user.lastGameRewardsClaimTimestamp || 0;
 
     if (nowTs - lastClaim >= twentyFourHours) {
-        const rewardAmount = 30780;
+        const rewardAmount = 5500;
         const newTransaction: Transaction = {
             id: `trx-gr-${Date.now()}`,
             type: 'credit',
@@ -801,7 +802,8 @@ const App: React.FC = () => {
     'invest': 'Investment',
     'task_dashboard': taskMode === 'quiz' ? 'Quiz Game' : taskMode === 'telegram' ? 'Task' : 'Tasks',
     'upgrade_proposal': 'VIP Membership', 'upgrade_payment': 'Confirm VIP Status', 'business_hub': 'Business Hub',
-    'notifications': 'Feed', 'receipt': 'Receipt', 'link_withdraw_account': 'Account Hosting'
+    'notifications': 'Feed', 'receipt': 'Receipt', 'link_withdraw_account': 'Account Hosting',
+    'how_it_works': 'How It Works'
   };
 
   if (user?.isRestricted) {
@@ -822,6 +824,7 @@ const App: React.FC = () => {
                     isSubscribed={user?.isSubscribed}
                     isVIP={user?.isVIP}
                     onNotificationClick={() => { setActiveTab('notifications'); setHasUnreadNotifications(false); }}
+                    onInfoClick={() => setActiveTab('how_it_works')}
                   />
               )}
               {activeTab === 'me' ? (
@@ -844,6 +847,12 @@ const App: React.FC = () => {
                 <BusinessHub user={user} onVipWithdraw={handleVipWithdraw} onLinkAccountClick={() => setActiveTab('link_withdraw_account')} onBack={handleBack} />
               ) : activeTab === 'link_withdraw_account' && user ? (
                 <LinkWithdrawAccount user={user} onBack={() => setActiveTab('finance')} />
+              ) : activeTab === 'how_it_works' ? (
+                <HowItWorks 
+                  onBack={handleBack} 
+                  onPlayQuiz={() => { setTaskMode('quiz'); setActiveTab('task_dashboard'); }}
+                  onSubscribe={() => setActiveTab('subscribe')}
+                />
               ) : activeTab === 'notifications' ? (
                 <NotificationFeed onBack={handleBack} />
               ) : activeTab === 'send_money' ? (

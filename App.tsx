@@ -828,7 +828,7 @@ const App: React.FC = () => {
                   />
               )}
               {activeTab === 'me' ? (
-                 <Profile user={user!} onUpdateProfile={handleUpdateProfile} darkMode={darkMode} toggleDarkMode={toggleDarkMode} onLogout={handleLogout} />
+                 <Profile user={user!} onUpdateProfile={handleUpdateProfile} onLinkAccountClick={() => setActiveTab('link_withdraw_account')} darkMode={darkMode} toggleDarkMode={toggleDarkMode} onLogout={handleLogout} />
               ) : activeTab === 'reward' ? (
                 <Rewards currentDay={rewardStatus.currentDay} canClaim={isClaimable} onClaim={handleClaimReward} lastClaimedTimestamp={rewardStatus.lastClaimedTimestamp} onBack={handleBack} />
               ) : activeTab === 'loan' && user ? (
@@ -846,7 +846,7 @@ const App: React.FC = () => {
               ) : (activeTab === 'business_hub' || activeTab === 'finance') && user ? (
                 <BusinessHub user={user} onVipWithdraw={handleVipWithdraw} onLinkAccountClick={() => setActiveTab('link_withdraw_account')} onBack={handleBack} />
               ) : activeTab === 'link_withdraw_account' && user ? (
-                <LinkWithdrawAccount user={user} onBack={() => setActiveTab('finance')} />
+                <LinkWithdrawAccount user={user} onBack={() => setActiveTab('home')} />
               ) : activeTab === 'how_it_works' ? (
                 <HowItWorks 
                   onBack={handleBack} 

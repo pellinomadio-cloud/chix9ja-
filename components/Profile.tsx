@@ -5,12 +5,13 @@ import { User } from '../types';
 interface ProfileProps {
   user: User;
   onUpdateProfile: (updatedUser: Partial<User>) => void;
+  onLinkAccountClick: () => void;
   darkMode: boolean;
   toggleDarkMode: () => void;
   onLogout: () => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, toggleDarkMode, onLogout }) => {
+const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, onLinkAccountClick, darkMode, toggleDarkMode, onLogout }) => {
   const [name, setName] = useState(user.name);
   const [isEditing, setIsEditing] = useState(false);
   const [cvcCode, setCvcCode] = useState('');
@@ -122,6 +123,27 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdateProfile, darkMode, togg
             {isEditing ? <Icons.Check size={20} /> : 'Edit'}
           </button>
         </div>
+
+        {/* Link Account Button - Subscribed Users Only */}
+        {user.isSubscribed && (
+          <div className="py-2">
+            <button 
+              onClick={onLinkAccountClick}
+              className="w-full p-4 bg-blue-600/10 border border-blue-500/30 rounded-2xl flex items-center justify-between group hover:bg-blue-600/20 transition-all active:scale-[0.98]"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-blue-600/20 rounded-xl text-blue-400 group-hover:scale-110 transition-transform">
+                  <Icons.Link size={20} />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-bold text-white leading-tight">Link Withdraw Account</p>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Database Integration</p>
+                </div>
+              </div>
+              <Icons.ChevronRight size={18} className="text-blue-500/50" />
+            </button>
+          </div>
+        )}
 
         {/* CVC Code Section */}
         <div className="flex flex-col py-3 border-t border-gray-800">
